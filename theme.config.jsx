@@ -31,7 +31,7 @@ const config = {
   },
   docsRepositoryBase: "https://github.com/shuding/nextra-docs-template",
   sidebar: {
-    defaultMenuCollapseLevel: 2,
+    defaultMenuCollapseLevel: 1,
     titleComponent: ({ title, type, level }) => {
       return (
         <div
