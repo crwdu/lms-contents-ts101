@@ -11,15 +11,103 @@
       "pagination": false
     }
   },
-  "js101": {
-    "title": "🧩 JavaScript 101",
+  "before-you-start": {
+    "title": "1. 시작 전 필독사항",
     "theme": {
       "layout": "full",
-      "breadcrumb": true,
+      "breadcrumb": false,
       "footer": true,
       "sidebar": true,
       "toc": true,
-      "pagination": true
+      "pagination": false
+    }
+  },
+  "variables": {
+    "title": "2. 변수에 데이터 담기",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  },
+  "data-types": {
+    "title": "3. 데이터의 종류",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  },
+  "operators": {
+    "title": "4. 기본 연산자",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  },
+  "control-flow": {
+    "title": "5. 논리의 흐름, 제어문",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  },
+  "functions": {
+    "title": "6. 논리의 집합, 함수",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  },
+  "arrays": {
+    "title": "7. 배열 다루기",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  },
+  "objects": {
+    "title": "8. 객체 다루기",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  },
+  "scope": {
+    "title": "9. 변수의 접근 범위",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
     }
   }
 }

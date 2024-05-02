@@ -1,0 +1,23 @@
+{
+  "index": {
+    "title": "7. 배열 다루기",
+    "display": "hidden",
+    "theme": {
+      "layout": "full",
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  },
+  "arrays": {
+    "title": "배열"
+  },
+  "arrays-quiz-1": {
+    "title": "배열 퀴즈 #1"
+  },
+  "arrays-quiz-2": {
+    "title": "배열 퀴즈 #2"
+  }
+}
