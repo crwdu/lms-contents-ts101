@@ -1,5 +1,8 @@
-import { VERCEL_ENVS } from "../constants/config";
+import { DEPLOYMENT_ENVS } from "../constants/config";
 
-export const isLocalEnv = (env) => {
-  return !VERCEL_ENVS.includes(env);
+export const isDeployed = () => {
+  const environment =
+    process.env.VERCEL_ENV || process.env.NEXT_PUBLIC_VERCEL_ENV;
+
+  return DEPLOYMENT_ENVS.includes(environment);
 };

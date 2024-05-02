@@ -7,10 +7,10 @@ import CustomSandpack from "../components/CustomSandpack";
 
 import useUser from "../hooks/useUser";
 import useGlobalEvents from "../hooks/useGlobalEvents";
-import { isLocalEnv } from "../utils/config";
+import { isDeployed } from "../utils/config";
 
 export default function Nextra({ Component, pageProps }) {
-  if (!isLocalEnv(process.env.VERCEL_ENV)) {
+  if (isDeployed()) {
     useGlobalEvents();
   }
 
