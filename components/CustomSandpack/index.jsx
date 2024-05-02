@@ -8,6 +8,7 @@ import {
 } from "@codesandbox/sandpack-react";
 import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 import useEventSender from "../../hooks/useEventSender";
+import { isLocalEnv } from "../../utils/config";
 
 const ListenerIframeMessage = ({ testNumber }) => {
   const eventSender = useEventSender();
@@ -61,7 +62,9 @@ export default function CustomSandpack({ files, main = "/app.test.js" }) {
       }}
     >
       <SandpackLayout>
-        <ListenerIframeMessage testNumber={testNumber} />
+        {!isLocalEnv(process.env.VERCEL_ENV) && (
+          <ListenerIframeMessage testNumber={testNumber} />
+        )}
         <SandpackCodeEditor
           showLineNumbers
           showTabs={false}
