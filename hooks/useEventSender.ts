@@ -51,10 +51,7 @@ function useEventSender() {
   ) => {
     const user = await getUser();
 
-    const paths = parsePathname(router.pathname);
-    const courseId = paths?.courseId;
-    contentPath = paths?.contentPath;
-
+    const courseId = `/${router.basePath ? router.basePath.split("/")[2] : ""}`;
     let finalContentPath = contentPath
       ? contentPath.replace(router.basePath, "")
       : router.pathname;
