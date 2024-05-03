@@ -12,8 +12,10 @@ const mediumUrl = "https://medium.com/vanilla-coding";
 const instagramUrl = "https://www.instagram.com/vanilla_coding";
 const facebookUrl = "https://www.facebook.com/vcoding";
 const youtubeUrl = "https://www.youtube.com/channel/UCqw3KRd7EBORZPqpxU4XLEA";
-const refundPolicy =
-  "https://www.notion.so/vanillacoding/Refund-Regulation-5fb4e6da39ae4665b5f376eb1172cf4b";
+const refundPolicyUrl =
+  "https://vanillacoding.notion.site/110849a0d26a41389ec68736d8e44a6e?pvs=4";
+const termsPolicyUrl = "https://www.vanillacoding.co/?mode=policy";
+const privacyPolicyUrl = "https://www.vanillacoding.co/?mode=privacy";
 
 const config = {
   toc: {
@@ -72,15 +74,23 @@ const config = {
             </p>
             <div className="mt-[50px]">
               <a
-                href="/starterkit/files/policy.pdf"
+                href={termsPolicyUrl}
                 target="_blank"
                 className="text-sm text-gray-5 font-bold block sm:inline-block"
-                title="이용약관 및 개인정보 보호정책"
+                title="이용약관"
               >
-                이용약관 및 개인정보 보호정책
+                이용약관
               </a>
               <a
-                href={refundPolicy}
+                href={privacyPolicyUrl}
+                target="_blank"
+                className="text-sm text-gray-5 font-bold ml-0 sm:ml-10 block sm:inline-block"
+                title="개인정보 보호정책"
+              >
+                개인정보 보호정책
+              </a>
+              <a
+                href={refundPolicyUrl}
                 target="_blank"
                 className="text-sm text-gray-5 font-bold ml-0 sm:ml-10 block sm:inline-block"
                 title="코스 환불 규정"
