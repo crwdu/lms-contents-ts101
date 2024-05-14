@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { MDXProvider } from "nextra/mdx";
 import { Callout } from "nextra-theme-docs";
 
+import "../styles/globals.css";
+
 import * as ChannelService from "@channel.io/channel-web-sdk-loader";
 import CustomSandpack from "../components/CustomSandpack";
 

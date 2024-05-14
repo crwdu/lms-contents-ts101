@@ -8,7 +8,7 @@ import facebookIcon from "./public/icons/facebook.png";
 import youTubeIcon from "./public/icons/youTube.png";
 import favicon from "./public/icons/favicon.png";
 
-const mediumUrl = "https://medium.com/vanilla-coding";
+const mediumUrl = "https://www.vanillacoding.co/blog";
 const instagramUrl = "https://www.instagram.com/vanilla_coding";
 const facebookUrl = "https://www.facebook.com/vcoding";
 const youtubeUrl = "https://www.youtube.com/channel/UCqw3KRd7EBORZPqpxU4XLEA";
@@ -18,13 +18,9 @@ const termsPolicyUrl = "https://www.vanillacoding.co/?mode=policy";
 const privacyPolicyUrl = "https://www.vanillacoding.co/?mode=privacy";
 
 const config = {
-  toc: {
-    float: false,
-  },
-  gitTimestamp: null,
   darkMode: false,
   logo: <Image alt="vaco-logo" src={logo} width={140} height={35} />,
-  logoLink: `${process.env.NEXT_PUBLIC_URI}`,
+  logoLink: process.env.NEXT_PUBLIC_URI,
   editLink: {
     component: () => <></>,
   },
@@ -34,19 +30,6 @@ const config = {
   docsRepositoryBase: "https://github.com/shuding/nextra-docs-template",
   sidebar: {
     defaultMenuCollapseLevel: 1,
-    titleComponent: ({ title, type, level }) => {
-      return (
-        <div
-          style={{
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-          }}
-        >
-          {title}
-        </div>
-      );
-    },
   },
   head: (
     <>
@@ -62,13 +45,13 @@ const config = {
       return (
         <div className="flex w-full justify-between">
           <div>
-            <strong className="font-bold text-sm">㈜크라우드에듀케이션</strong>
+            <strong className="font-bold text-sm">㈜ 크라우드 에듀케이션</strong>
             <p className="leading-[25px] mt-6 text-sm">
               대표 허근행 | 개인정보책임자 허근행
               <br />
               사업자 등록번호 843-81-02398
               <br />
-              주소 서울특별시 강남구 대치 2동 테헤란로 522, 7층
+              주소 서울특별시 강남구 테헤란로 522, 7층
               <br />
               문의 info@vanillacoding.co
             </p>

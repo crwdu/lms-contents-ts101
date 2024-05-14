@@ -19,7 +19,7 @@
   "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
     "@channel.io/channel-web-sdk-loader": "^1.1.7",
-    "@codesandbox/sandpack-react": "^2.1.10",
+    "@codesandbox/sandpack-react": "^2.13.10",
     "@codesandbox/sandpack-themes": "^2.0.21",
     "@tailwindcss/typography": "^0.5.8",
     "antd": "^5.4.6",

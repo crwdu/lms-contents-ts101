@@ -1,0 +1,256 @@
+import { Sandpack } from "@codesandbox/sandpack-react";
+import { githubLight } from "@codesandbox/sandpack-themes";
+
+<br/>
+
+# Inline, Block, Inline-block
+
+HTML 요소들은 크게 두 가지로 분류할 수 있습니다. 첫번째는 Block 요소, 그리고 두번째는 Inline 요소입니다. 이 두 가지의 차이점은 굉장히 중요합니다. 그렇다면 그 차이점은 무엇일까요?
+
+## Block Elements
+
+Block 요소들은 화면상에서 항상 새로운 줄에서 시작하고, 위 아래에 서로 쌓이는 형식으로 나타납니다. 그리고 사용 가능한 최대치의 폭을 차지하게 됩니다.
+
+아래의 예제를 한번 보시기 바랍니다. HTML 상으로는 한 줄에 2개의 `p` 태그를 작성하였습니다. 하지만 화면에서 보시면, 두 개의 `p` 태그가 모두 전체 화면의 폭만큼 넓게 자리잡은 상태로 각각의 새로운 줄에 나타나는 것을 볼 수 있습니다. `p` 태그는 브라우저 상에서 기본으로 Block 요소이기 때문입니다.
+
+<br/>
+
+<Sandpack
+  template="vanilla"
+  theme={githubLight}
+  files={{
+    "/index.html": {
+      code: `<html>
+<head>
+  <title>HTML & CSS</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <p class="one">one</p><p class="two">two</p>
+</body>
+</html>`,
+      active: true
+    },
+    "/styles.css": {
+      code:`.one {
+  background-color: red;
+}
+
+.two {
+  background-color: blue;
+}`
+}
+}}
+options={{
+    showLineNumbers: true,
+    editorHeight: "400px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+  }}
+customSetup={{
+    entry: "index.html",
+  }}
+/>
+
+Block 요소들은 또 다른 Block 요소를 자식으로 가질 수도 있고, Inline 요소를 자식으로 가질 수도 있습니다. 그에 대한 제약은 없습니다.
+
+조금 다른 예제를 한번 볼까요?
+
+<br/>
+
+<Sandpack
+  template="vanilla"
+  theme={githubLight}
+  files={{
+    "/index.html": {
+      code: `<html>
+<head>
+  <title>HTML & CSS</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="container">
+    <p class="one">one</p>
+    <p class="two">two</p>
+  </div>
+</body>
+</html>`,
+      active: true
+    },
+    "/styles.css": {
+      code:`.container {
+  background-color: yellow;
+  width: 50%;
+  padding: 10px;
+}
+
+.one {
+  background-color: red;
+}
+
+.two {
+  background-color: blue;
+}`
+}
+}}
+options={{
+    showLineNumbers: true,
+    editorHeight: "400px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+  }}
+customSetup={{
+    entry: "index.html",
+  }}
+/>
+
+`div` 또한 Block 요소입니다. 폭이 화면의 폭만큼 넓지 않은 이유는 `width: 50%;`라는 설정을 했기 때문입니다. 그리고 `div` 요소 내부에는 `p` 태그가 두 개 들어있습니다. 해당 `p` 태그는 Block 요소이기 때문에 자신들이 차지할 수 있는 가장 최대치의 폭을 차지하게 됩니다. 양 옆에 약간의 노란색 공간이 보이는 것은 `div` 요소에게 주어진 `padding: 10px;` 때문입니다.
+
+#### Inline Elements
+
+Inline 요소들은 새 줄에서 나타나지 않습니다. 일반적인 문서에서의 텍스트 흐름과 동일하게 동작합니다. 하나에 이어 또 다른 하나가 줄줄이 이어 붙어서 나타나는 형식입니다. 그리고 요소 내부 컨텐츠의 양만큼만 폭을 차지하게 됩니다. Inline 요소들은 또 다른 Inline 요소들을 자식으로 포함할 수 있지만, Block 요소를 자식으로 품을 수는 없습니다. 예제를 통해 확인해볼까요?
+
+<br/>
+
+<Sandpack
+  template="vanilla"
+  theme={githubLight}
+  files={{
+    "/index.html": {
+      code: `<html>
+<head>
+  <title>HTML & CSS</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="container">
+    <p><span class="italic-text">Hello</span> <span class="bold-text">Vanilla</span> Coding</p>
+  </div>
+</body>
+</html>`,
+      active: true
+    },
+    "/styles.css": {
+      code:`.container {
+  background-color: yellow;
+}
+
+.italic-text {
+  font-style: italic;
+  background-color: green;
+}
+
+.bold-text {
+  font-weight: bold;
+  background-color: green;
+}`
+}
+}}
+options={{
+    showLineNumbers: true,
+    editorHeight: "400px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+  }}
+customSetup={{
+    entry: "index.html",
+  }}
+/>
+
+`span` 태그는 대표적인 Inline 요소 중 하나입니다. 화면 상으로 초록색 배경이 적용된 부분들이 보이시나요? 각각의 Inline 요소들입니다. 새로운 줄로 넘어가지 않고 텍스트의 흐름 상에 자연스럽게 적용됩니다.
+
+#### Using Inline Block
+
+두 번째 방법은 `display` 속성에 해당하는 값 중 하나인 `inline-block`을 이용하는 방법입니다. `inline-block`을 이용하면, 여러 개의 Block 요소들을 마치 Inline 요소처럼 한 줄에 이어서 배치할 수 있습니다. 아래 예제를 보시면 이전 예제와 약간의 스타일 차이는 있지만, Block 요소를 한 줄에 나란히 배치한 것을 볼 수 있습니다. 이전과는 다르게 `<section>` 요소와 `<aside>` 요소에 `display: inline-block;`을 주었습니다.
+
+<br/>
+
+<Sandpack
+  template="vanilla"
+  theme={githubLight}
+  files={{
+    "/index.html": {
+      code: `<html>
+<head>
+  <title>HTML & CSS</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <code>&#60;header&#62;</code>
+  </header>
+
+  <section>
+    <code>&#60;section&#62;</code>
+  </section>
+
+  <aside>
+    <code>&#60;aside&#62;</code>
+  </aside>
+
+  <footer>
+    <code>&#60;footer&#62;</code>
+  </footer>
+</body>
+</html>`,
+      active: true
+    },
+    "/styles.css": {
+      code:`code {
+  background: #000000;
+  color: #ffffff;
+  display: block;
+  padding: 25px;
+  text-align: center;
+}
+
+header,
+section,
+aside,
+footer {
+  margin: 10px;
+}
+
+footer {
+  clear: both;
+  margin-bottom: 0;
+}
+
+section,
+aside {
+  display: inline-block;
+}`
+}
+}}
+options={{
+    showLineNumbers: true,
+    editorHeight: "600px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+  }}
+customSetup={{
+    entry: "index.html",
+  }}
+/>
+
+## CSS 디버깅 하기
+
+작업 결과물이 만약 여러분이 원하는 것과 다르다면, 우선 개발자 도구를 활용하여 여러분의 코드가 의도대로 적용되었는지 살펴볼 수 있습니다.
+
+살펴보고 싶은 요소에 마우스를 **우클릭**하고 **검사 버튼을 클릭**해주세요.
+
+![css](/images/posts/html-intro/css_debugging_01.png)
+
+아래와 같이 해당 요소를 자세히 살펴볼 수 있는 개발자 도구가 화면에 나타났나요?
+
+![css](/images/posts/html-intro/css_debugging_02.png)
+
+좌측 패널에서 여러분의 HTML이 웹사이트로 구현된 구조를 확인할 수 있고, 우측 패널에서 여러분의 CSS 코드가 실제로 어떻게 적용되었는지 확인할 수 있습니다.
+
+또한, 즉각적으로 CSS 코드를 수정하여 화면에 어떻게 반영되는지 미리 확인해볼 수 있기도 합니다.
+
+구글에서 **크롬 개발자도구 사용법**이라고 검색하시면 더 많은 자료가 있으니 다양한 자료를 참고하여 개발자도구 사용법을 익혀보세요. 😎

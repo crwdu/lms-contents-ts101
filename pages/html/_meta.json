@@ -1,0 +1,23 @@
+{
+  "01-troubleshooting": {
+    "title": "문제에 대처하는 방법"
+  },
+  "02-intro": {
+    "title": "웹을 구성하는 뼈대, HTML"
+  },
+  "03-basic-syntax": {
+    "title": "HTML 문법 구조"
+  },
+  "04-document-structure": {
+    "title": "HTML 문서 구조"
+  },
+  "05-editor": {
+    "title": "코드 에디터 설치하기"
+  },
+  "06-new-file": {
+    "title": "HTML 파일 만들기"
+  },
+  "07-first-code": {
+    "title": "HTML 코드 작성해보기"
+  }
+}
