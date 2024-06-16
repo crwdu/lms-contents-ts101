@@ -1,0 +1,491 @@
+import Giscus from "@giscus/react";
+import { FileTree } from "nextra/components";
+import {
+  Sandpack,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeViewer,
+  SandpackPreview,
+  UnstyledOpenInCodeSandboxButton,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# 문법 기초 퀴즈
+
+<br/>
+## 1. 논리 연산자
+
+[논리 연산자](../javascript-grammar/logical-operators.mdx)를 다시 한번 살펴보고 아래 퀴즈들을 풀어보세요.
+
+<Callout emoji="📌">
+정확히 어떤 값이 콘솔에 출력되는지 3분 이상 잘 고민해보고, 아래 콘솔 출력문의 주석을 해제하여 정답을 확인해보세요.
+</Callout>
+
+<br/>
+### 1-1. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const result = 30 && 0;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 1-2. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const a = 0;
+const result = !!a;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 1-3. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const result = ("0" && 30) || false;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+## 2. 숫자
+
+<br/>
+### 2-1. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const result = 10 % 3;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 2-2. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `let a = 10 % 3;
+a += 3;
+const result = a++;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 2-3. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `let a = 10 % 3;
+a -= 1;
+const result = ++a;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+## 3. 문자열
+
+<br/>
+### 3-1. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const today = "토요일";
+const result = "나는" + today + "에 일한다!";
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 3-2. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const today = "토요일";
+const result = \`나는 \${today}에 일한다!\`;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 3-3. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const str = "something";
+const result = \`\${str[0]}\${str[3]}\${str[1]}\`;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 3-4. 퀴즈
+
+> 처음보는 방식이더라도, 한번 살펴보고 알아두세요.
+
+- [문자열 toLowerCase 메서드](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase)
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const str = "HunGry?";
+const result = str.toLowerCase();
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 3-5. 퀴즈
+
+- [문자열 repeat 메서드](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/repeat)
+- [문자열 slice 메서드](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/slice)
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const str = "ha";
+const a = str.repeat(5);
+const result = a.slice(4, 6);
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 3-6. 퀴즈
+
+- [문자열 split 메서드](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/split)
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const a = "ha".repeat(3);
+const result = a.split("a");
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+## 4. 문자열과 숫자의 형변환
+
+<br/>
+### 4-1. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const result = 7 + "3";
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 4-2. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const result = "7" + 3;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+### 4-3. 퀴즈
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const result = "7" - 3;
+
+// console.log(result);`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

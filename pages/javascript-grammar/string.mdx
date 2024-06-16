@@ -1,0 +1,76 @@
+import Giscus from "@giscus/react";
+
+<br/>
+# 문자열의 다양한 기능
+
+이전에도 조금씩 봤듯이, 문자열은 자바스크립트에서 텍스트를 표현하기 위한 자료형 카테고리입니다.
+
+문자열에는 다양한 기능들이 있습니다.
+
+아래 코드들을 한 줄씩 각각 실행시켜보며 어떤 기능을 하는지 이해해보시고, 여러분 만의 예시를 만들어 변경하고 실험해보세요. 재미있는 실험 내용이 있다면 친구들과 공유해보세요. 😎
+
+<Callout emoji="📌">
+  문자열 뒤에 사용된 영어 단어(보라색 단어)의 의미를 한국어로 잘 이해해보시는 것이 매우 중요합니다.
+</Callout>
+
+```javascript copy
+const a = "ㅋ".repeat(3);
+console.log(a);
+
+const b = "hi ken".includes("ken");
+console.log(b);
+
+const c = "what are you doing?".startsWith("are");
+console.log(c);
+
+const d = "I am doing FiNe".endsWith("iNe");
+console.log(d);
+
+const e = "Are you sure?".indexOf(" ");
+console.log(e);
+
+const f = "Yeah I am sure".slice(2, 4);
+console.log(f);
+
+const g = "I?doubt?that".split("?");
+console.log(g);
+
+const h = "vaco".split("");
+console.log(h);
+
+const i = "I am Hungry".toLowerCase();
+console.log(i);
+
+const j = "Hello World".toUpperCase();
+console.log(j);
+````
+
+이 [MDN 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4_%EB%A9%94%EC%84%9C%EB%93%9C)의 인스턴스 메서드 파트에서 위에 작성된 보라색 단어들의 이름을 기준으로 찾아서 어떤 기능을 하는지 조사해보세요.
+
+위의 예시 코드와 문서를 살펴보시는 과정에서는 반드시 아래와 같은 절차를 따라서 하세요. ✅
+
+1. 문서 내 예제를 먼저 자세히 읽고, 실행시켜 보시면서 감을 읽히세요.
+2. 그리고 문서의 설명 글을 자세히 읽고, 방금 살펴본 예제와 비교해보세요. 이해가 안되면 다시 예제를 실행해보세요.
+3. 파라미터(소괄호 내에 입력해줘야 하는 값)에 대한 부분과 반환값(전체 구문의 실행 결과값)에 대한 내용을 읽고 예제 코드의 내용과 비교해보세요.
+
+---
+
+조금 머리가 아프셨나요? 앞으로 차근차근 더욱 알아갈테니 너무 스트레스 받지 마시고, 직접 손으로 많이 해보는 경험을 하세요!
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

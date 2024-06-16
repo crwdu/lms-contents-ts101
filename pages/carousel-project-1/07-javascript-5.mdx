@@ -1,0 +1,115 @@
+import Giscus from "@giscus/react";
+import { FileTree } from "nextra/components";
+import {
+  Sandpack,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeViewer,
+  SandpackPreview,
+  UnstyledOpenInCodeSandboxButton,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# 마우스 클릭 감지하기
+
+이번 단계에서는 자바스크립트와 함께 좌우 아이콘을 클릭했을때 이미지가 변경되도록 구현해보도록 하겠습니다.
+
+<br/>
+## 1. 사용자의 클릭을 어떻게 감지할까?
+
+이제 사용자가 좌측과 우측의 방향 아이콘을 클릭했을때, 우리가 원하는 동작을 수행하도록 연결해보겠습니다.
+
+▼ 자바스크립트 파일 내용을 아래와 같이 수정해보세요.
+
+```js copy filename="app.js" showLineNumbers {4-8}
+/* 마우스를 올리시면 우측에 복사할 수 있는 버튼이 나타나요! 👉🏻 */
+alert("Hello, world");
+
+const rightArrow = document.querySelector(".right");
+
+rightArrow.onclick = function () {
+  alert("클릭하셨습니다!");
+};
+```
+
+위와 같이 수정한 상태에서 HTML 파일을 **새로고침**하고, **우측 방향 아이콘을 클릭**해보세요.
+
+아래와 같은 창이 나타나는 것을 확인하셨나요? 🤓
+
+![alert](/images/posts/carousel-project/arrow_click.png)
+
+우리가 현재 작성한 코드는 어떤 내용일까요?
+
+<br/>
+## 2. 자바스크립트 코드 설명
+
+우리가 작성한 코드에 대해 우선 대략적으로 살펴보겠습니다.
+
+```js copy filename="app.js" showLineNumbers
+const rightArrow = document.querySelector(".right");
+
+rightArrow.onclick = function () {
+  alert("클릭하셨습니다!");
+};
+```
+
+위에 우리가 작성한 코드는 사용자가 `.right` [CSS 선택자](../google-project-2/02-css-selectors.mdx)를 가진 요소를 클릭하는 것을 감지할 수 있게 합니다.
+
+<br/>
+### 2-1. HTML 문서에서 특정 요소 선택하기
+
+```js
+const rightArrow = document.querySelector(".right");
+```
+
+우선 위의 문장은 대략적으로 우리의 HTML 문서 내에서 `.right`이라는 CSS 선택자를 가진 요소를 찾아서, `rightArrow`라는 이름을 붙여주는 내용입니다.
+
+단, 몇 가지 주의해야 할 점이 있습니다.
+
+- 우리가 명시한 CSS 선택자와 일치하는 요소가 여러 개 있을 경우, (위에서 아래 방향을 기준으로) 가장 첫 번째로 나타나는 요소를 선택하게 됩니다.
+- 우리가 명시한 CSS 선택자와 일치하는 요소가 없을 경우, `rightArrow`라는 이름은 아무런 의미를 갖지 않게 됩니다. (정확한 내용은 뒷 부분에서 다루겠습니다.)
+
+<br/>
+### 2-2. 특정 요소의 클릭 감지하기
+
+```js
+rightArrow.onclick = function () {
+  // something
+};
+```
+
+위와 같은 문장은, `rightArrow` 요소에 사용자가 클릭했을 경우 우리가 수행하고 싶은 로직을 추가할 수 있도록 합니다.
+
+`// something`이라고 적힌 부분에 우리가 원하는 로직을 작성하면, 사용자가 `rightArrow`를 클릭했을때 우리가 작성한 로직이 실행됩니다.
+
+<br/>
+### 2-3. 클릭 발생시 수행할 로직 작성하기
+
+```js {2}
+rightArrow.onclick = function () {
+  alert("클릭하셨습니다!");
+};
+```
+
+기존에 `// something` 구문이 작성되었던 곳에 우리가 원하는 로직을 작성하면, 사용자가 `rightArrow`를 클릭했을때 우리가 작성한 코드가 실행됩니다.
+
+다음 단계에서는 우리가 작성한 코드에 대해 조금 더 자세히 알아보도록 하겠습니다.
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

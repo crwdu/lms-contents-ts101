@@ -1,0 +1,157 @@
+import Giscus from "@giscus/react";
+import { FileTree } from "nextra/components";
+import {
+  Sandpack,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeViewer,
+  SandpackPreview,
+  UnstyledOpenInCodeSandboxButton,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# `let` vs `const`
+
+우선 `let`과 `const`라는 명령어 모두 [변수](../carousel-project-1/08-javascript-6.mdx)를 만드는 기능을 합니다.
+
+```js
+let bootcamp = "vaco";
+const myName = "ken";
+```
+
+변수를 만든다는 것은, 우리가 자바스크립트로 사용할 단어집에 새로운 단어를 추가하는 행위와 같습니다.
+
+하지만 이 두 가지는 미세한 차이가 있습니다.
+
+<br/>
+## 1. `const`는 재할당이 불가능하다.
+
+제목에 작성한대로, `const`는 재할당이 불가능합니다.
+
+재할당이란, 기존에 만든 변수에 새로운 값을 대입하여 값을 변경하는 것을 의미합니다.
+
+```js
+const myName = "ken";
+
+myName = "wan"; // 재할당
+```
+
+아래 에디터에서 실행된 결과를 확인해보세요. `"myName"` 변수에 관한 오류 메시지가 표기되었죠?
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `const myName = "ken";
+
+myName = "wan"; // 재할당`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+브라우저 개발자 도구의 콘솔창이나 RunJS에서도 동일한 코드를 실행해보고 어떤 오류 메시지가 표기되는지 확인해보세요.
+
+아마 다음과 같은 오류 메시지가 표기되었을텐데요.
+
+![const error message](/images/const_error.png)
+
+<Callout emoji="📌">
+  오류가 발생했을 경우, 오류 메시지의 내용을 자세히 읽고 완벽하게 이해하는 것이 매우 중요합니다.
+</Callout>
+
+`Assignment to constant variable.`이라는 내용의 오류 메시지네요.
+
+> `constant`라는 단어는 상수라는 의미이고, `const`는 `constant`의 줄임말입니다.
+
+오류 메시지를 번역해보자면, **상수인 변수에게 할당/대입**이라는 의미가 되겠죠?
+
+오류 메시지의 내용을 잘 이해했다면, 상수(`const`)인 변수에게는 할당이나 대입이 불가능하다고 유추할 수 있습니다.
+
+**`const`로 만들어진 변수는 변수를 만드는 시점에 초기값을 설정할 수는 있지만, 만들어진 이후에는 새로운 값으로 변경(재할당)이 불가능합니다.**
+
+그렇기 때문에 기존에 실행했던 코드가 오류를 발생시키는 것입니다. 우리가 문법의 규칙을 어긴 것이죠.
+
+<br/>
+## 2. `let`은 재할당이 가능하다.
+
+`let`은 재할당이 불가능한 `const`의 특징을 보완하기 위해 만들어졌습니다.
+
+즉, `let`은 재할당이 가능합니다.
+
+```js
+let myName = "ken";
+
+myName = "wan";
+```
+
+위와 같은 코드는 실행해도 아무런 오류를 발생시키지 않습니다. `let`의 문법 규칙을 어기지 않았기 때문이죠.
+
+아래 에디터에서 코드의 실행 결과를 직접 확인해보세요.
+
+<br/>
+<Sandpack
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/app.js": {
+      code: `let myName = "ken";
+
+console.log(myName); // "ken"
+
+myName = "wan"; // 재할당
+
+console.log(myName); // "wan"`,
+      active: true
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    editorHeight: "500px",
+    editorWidthPercentage: 60,
+    initMode: "lazy",
+    autoReload: false,
+    showConsole: true,
+  }}
+customSetup={{
+    entry: "app.js",
+  }}
+/>
+
+<Callout emoji="📌">
+  `const`를 우선 사용하여 변수를 만들고, 재할당이 필요한 경우에 한해 `let`으로 변경하는 것이 일반적인 방식입니다.
+</Callout>
+
+이제 기존 프로젝트로 다시 돌아가 작업을 이어가 볼까요?
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

@@ -1,0 +1,125 @@
+import Giscus from "@giscus/react";
+import { Sandpack } from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# 📗 CSS 작성 방식
+
+HTML 문서에 CSS를 추가하는 방법은 크게 3가지가 있습니다.
+
+<br/>
+## 1. Inline Style
+
+HTML 태그에 함께 붙여서 작성하는 방식을 뜻하며, 우리가 앞서 작성했던 코드가 바로 인라인 스타일입니다.
+
+```html copy showLineNumbers filename="index.html" {5}
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+  </head>
+  <body style="text-align: right">
+    <a>Gmail</a><a>Images</a><a>Sign in</a>
+    <h1>바닐라코딩</h1>
+  </body>
+</html>
+```
+
+위 예시의 경우, `body` 태그에게 인라인 스타일을 적용한 것이며 그렇기에 `body` 태그와 그 자식 요소들에게 적용되는 스타일입니다.
+
+<Callout emoji="📌">
+  자식요소들에게도 적용되는 이유는 CSS가 **Cascading** Style Sheet이기 때문입니다.
+</Callout>
+
+<br/>
+## 2. Internal CSS
+
+Internal CSS는 `style` 태그를 활용하여 HTML 파일 내부에 CSS를 작성하는 방식을 뜻합니다.
+
+예를 들어, 바로 위 예시를 Internal CSS로 변경하면 아래와 같습니다.
+
+
+```html copy showLineNumbers filename="index.html" {4-8}
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <style>
+      body {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <a>Gmail</a><a>Images</a><a>Sign in</a>
+    <h1>바닐라코딩</h1>
+  </body>
+</html>
+```
+
+위의 예시와 같이 `style` 태그는 일반적으로 `head` 태그 내부에 작성합니다.
+
+<br/>
+## 3. External CSS
+
+External CSS는 HTML 파일 외부에 별도의 CSS 파일을 만들어 작업하는 방식을 뜻합니다.
+
+위의 예시를 External CSS 방식으로 변경해보겠습니다.
+
+<br/>
+
+### CSS 파일
+
+```css copy showLineNumbers filename="styles.css"
+body {
+  text-align: right;
+}
+```
+
+### HTML 파일
+
+```html copy showLineNumbers filename="index.html" {4}
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a>Gmail</a><a>Images</a><a>Sign in</a>
+    <h1>바닐라코딩</h1>
+  </body>
+</html>
+```
+
+`link` 태그는 CSS 파일을 불러올 수 있는 기능을 하며, 위의 예시와 같이 일반적으로 `head` 태그 내부에 작성합니다.
+
+<Callout emoji="📌">
+  코드가 아직 익숙치 않은 분들은 반드시 컴퓨터에서 파일을 만들어 실험해보셔야 합니다. 귀찮거나, 시간이 아깝다는 이유로 그냥 넘어간다면 나중에 결국 그 시간을 다시 채워야 하는 순간들이 돌아옵니다.
+</Callout>
+
+<br/>
+## 4. 어떤 방식이 최선일까?
+
+코드에 정답은 없습니다. 무엇이든 주어진 상황이 있고 해결해야 하는 문제가 있습니다. 하지만 일반적으로 External CSS 방식을 가장 흔하게 많이 사용합니다. 왜 일까요? 그리고 각각의 차이점은 무엇일까요?
+
+이유와 차이점에 대해서 한번 리서치 해보시면 좋을것 같습니다. 😎
+
+저라면 구글에, _**Inline CSS vs Internal CSS vs External CSS**_ 라고 키워드만 간략히 나열하여 검색해볼것 같습니다.
+
+Good luck! 💚
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>
