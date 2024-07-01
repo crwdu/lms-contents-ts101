@@ -1,0 +1,404 @@
+import Giscus from "@giscus/react";
+import { FileTree } from "nextra/components";
+import {
+  Sandpack,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeViewer,
+  SandpackPreview,
+  UnstyledOpenInCodeSandboxButton,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# 이미지 변경 기능 완성하기
+
+<br/>
+## 1. 현재 상황
+
+잠시 현재 상황부터 다시 한번 점검해보겠습니다.
+
+<br/>
+### 1-1. HTML 파일
+
+```html filename="index.html" showLineNumbers copy
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="carousel">
+      <div class="left arrow">◀︎</div>
+        <ul>
+          <li class="show">
+            <img src="https://picsum.photos/id/1/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/2/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/3/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/4/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/5/400/200" />
+          </li>
+        </ul>
+      <div class="right arrow">▶︎</div>
+    </div>
+    <script src="./app.js" type="text/javascript"></script>
+  </body>
+</html>
+```
+
+<br/>
+### 1-2. CSS 파일
+
+```css filename="styles.css" copy showLineNumbers
+body {
+  background-color: #eeeeee;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  position: absolute;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+li {
+  position: absolute;
+  opacity: 0;
+}
+
+li.show {
+  opacity: 1;
+}
+```
+
+<br/>
+### 1-3. JavaScript 파일
+
+```js filename="app.js" copy showLineNumbers 
+const rightArrow = document.querySelector(".right");
+const lists = document.querySelectorAll("li");
+
+rightArrow.onclick = function () {
+  lists[0].classList.remove("show");
+  lists[1].classList.add("show");
+};
+```
+
+<br/>
+## 2. 클래스 변경하기
+
+다시 원점으로 돌아가 기존에 작성한 코드를 보면
+
+```js
+const lists = document.querySelectorAll("li");
+```
+
+`lists` 변수에 담기는 것은 현재 배열이고, HTML 문서 상의 이미지 요소가 배열에 순서대로 담기게 됩니다.
+
+> [ 1번 이미지, 2번 이미지, 3번 이미지, 4번 이미지, 5번 이미지 ]
+
+자바스크립트로 문서의 요소를 가져와 사용할때, 모든 요소는 아래와 같은 문법을 활용해 클래스 추가/변경/삭제가 가능합니다.
+
+아래 코드는 인덱스 0번째 이미지 요소에게 `"show"` 클래스를 제거하고, 인덱스 1번째 이미지 요소에게 `"show"` 클래스를 추가하는 내용입니다.
+
+```js
+lists[0].classList.remove("show");
+lists[1].classList.add("show");
+```
+
+위와 같이 클래스를 제거하고 추가하면, CSS에서 각 클래스에 알맞은 CSS 또한 함께 적용되므로 0번 인덱스의 이미지는 투명해지게 되어 눈에서 보이지 않게 되고, 1번 인덱스의 이미지는 보여지게 됩니다.
+
+<br/>
+## 3. 다음 이미지로 변경하기
+
+현재는 0번 인덱스의 이미지를 1번 인덱스의 이미지로 변경하게끔 동작합니다. 그렇지만 우리가 원하는 기능이 온전히 정상적으로 이루어지지는 않습니다.
+
+우리는 0번에서 1번 인덱스로, 1번에서 2번 인덱스로, 2번에서 3번 인덱스로, 3번에서 4번 인덱스로, 그리고 그 후에는 다시 0번 인덱스로 이동해야 합니다.
+
+다시 0번 인덱스로 이동하는 부분은 추후에 고려하도록 하고, 우선 인덱스를 증가시키며 다음 이미지를 보여주도록 자바스크립트 코드를 수정해보겠습니다.
+
+<br/>
+### 3-1. 의사 코드
+
+<Callout emoji="📌">
+  의사 코드란, 구체적인 프로그래밍 문법이 아닌 사람의 언어로 구성해야 할 논리를 표현하는 것을 의미합니다.
+</Callout>
+
+우선 우리는 사용자가 우측 방향 아이콘을 클릭했을때 다음과 같은 흐름의 로직을 작성할 계획입니다.
+
+1. 최초 진입시, 화면에는 첫 번째 이미지가 보여집니다. (`"show"` 클래스가 첫 번째 이미지 요소에게 주어져 있습니다.)
+2. 사용자가 우측 방향 아이콘을 클릭합니다.
+3. 첫 번째 이미지에게서 `"show"` 클래스를 제거하고, 두 번째 이미지에게 `"show"` 클래스를 추가합니다.
+4. 또 다시 사용자가 우측 방향 아이콘을 클릭합니다.
+5. 두 번째 이미지에게서 `"show"` 클래스를 제거하고, 세 번째 이미지에게 `"show"` 클래스를 추가합니다.
+6. 또 다시 사용자가 우측 방향 아이콘을 클릭합니다.
+7. 세 번째 이미지에게서 `"show"` 클래스를 제거하고, 네 번째 이미지에게 `"show"` 클래스를 추가합니다.
+8. 또 다시 사용자가 우측 방향 아이콘을 클릭합니다.
+9. 네 번째 이미지에게서 `"show"` 클래스를 제거하고, 다섯 번째 이미지에게 `"show"` 클래스를 추가합니다.
+10. 또 다시 사용자가 우측 방향 아이콘을 클릭합니다.
+11. 다섯 번째 이미지에게서 `"show"` 클래스를 제거하고, 첫 번째 이미지에게 `"show"` 클래스를 추가합니다.
+12. 2단계부터 다시 반복됩니다.
+
+위와 같은 로직을 잘 살펴보면, 우리가 현재 보여주고 있는 이미지가 몇 번째 이미지인지 알고 기억해야 합니다.
+
+다음과 같이 여러분의 자바스크립트를 수정해보세요.
+
+```js copy filename="app.js" showLineNumbers {4, 7-11, 13, 15}
+const rightArrow = document.querySelector(".right");
+const lists = document.querySelectorAll("li");
+
+let currentImageIndex = 0;
+
+rightArrow.onclick = function () {
+  lists[currentImageIndex].classList.remove("show");
+
+  currentImageIndex = currentImageIndex + 1;
+
+  lists[currentImageIndex].classList.add("show");
+};
+```
+
+<br/>
+### 3-2. 화면 결과
+
+<br/>
+<SandpackProvider
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/index.html": {
+      code: `<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="carousel">
+      <div class="left arrow">◀︎</div>
+        <ul>
+          <li class="show">
+            <img src="https://picsum.photos/id/1/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/2/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/3/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/4/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/5/400/200" />
+          </li>
+        </ul>
+      <div class="right arrow">▶︎</div>
+    </div>
+    <script src="./app.js" type="text/javascript"></script>
+  </body>
+</html>`,
+    },
+    "/styles.css": {
+      code: `body {
+  background-color: #eeeeee;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  position: absolute;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+li {
+  position: absolute;
+  opacity: 0;
+}
+
+li.show {
+  opacity: 1;
+}`
+    },
+    "/app.js": {
+      code: `const rightArrow = document.querySelector(".right");
+const lists = document.querySelectorAll("li");
+
+let currentImageIndex = 0;
+
+rightArrow.onclick = function () {
+  lists[currentImageIndex].classList.remove("show");
+
+  currentImageIndex = currentImageIndex + 1;
+
+  lists[currentImageIndex].classList.add("show");
+};`
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    initMode: "lazy",
+    autoReload: false,
+    activeFile: "/index.html",
+  }}
+  customSetup={{
+    entry: "index.html",
+  }}
+>
+  <SandpackLayout>
+    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "240px"}}/>
+  </SandpackLayout>
+</SandpackProvider>
+
+<br/>
+### 3-3. 코드 설명
+
+```js
+const rightArrow = document.querySelector(".right");
+const lists = document.querySelectorAll("li");
+
+let currentImageIndex = 0;
+
+rightArrow.onclick = function () {
+  lists[currentImageIndex].classList.remove("show");
+
+  currentImageIndex = currentImageIndex + 1;
+
+  lists[currentImageIndex].classList.add("show");
+};
+```
+
+위에 작성한 이벤트 핸들러 내용을 먼저 살펴보자면,
+
+```js
+lists[currentImageIndex].classList.remove("show");
+```
+
+위 구문은 `lists` 배열의 `currentImageIndex` 인덱스에 위치한 요소에게서 `"show"` 클래스를 제거하고 있습니다.
+
+배열의 인덱스가 들어가야 할 자리에 `currentImageIndex`라는 변수가 들어가 있고 `currentImageIndex` 변수는 숫자를 담고 있죠.
+
+위 구문의 코드가 실행되는 시점에 `currentImageIndex` 값이 인덱스로 활용되어 코드 구문이 실행되는 것입니다.
+
+만약 `currentImageIndex`가 0이라면 해당 구문은,
+
+```js
+lists[0].classList.add("show");
+```
+
+을 의미하는 것이고,
+
+만약 `currentImageIndex`가 100이라면 해당 구문은,
+
+```js
+lists[100].classList.add("show");
+```
+
+을 의미하는 것입니다.
+
+그리고 다음 구문으로 넘어가 보면,
+
+```js
+currentImageIndex = currentImageIndex + 1;
+```
+
+위 구문은 `=` 기호를 기준으로 우측이 먼저 연산되는데, `currentImageIndex` 변수에 담긴 숫자 값보다 1만큼 증가한 값을 연산하여 `currentImageIndex` 변수의 값으로 대입하고 있습니다.
+
+즉, `currentImageIndex` 변수에 담긴 숫자값이 1만큼 증가하게 됩니다.
+
+마지막으로,
+
+```js
+lists[currentImageIndex].classList.add("show");
+```
+
+`currentImageIndex` 변수에 담긴 숫자값이 1만큼 증가하였기에, 위 구문은 `lists` 배열에서 **다음 인덱스 순번의 이미지 요소에게** `"show"`라는 클래스를 추가하게 됩니다.
+
+우리가 작성한 내용이 대략적으로 이해되었나요? 🤓
+
+하지만 위에서 우리가 작성한 코드 중에 낯선 코드가 있습니다.
+
+```js
+let currentImageIndex = 0;
+```
+
+기존에는 `const`라는 문법을 활용하여 변수를 만들어 주었는데, 이번에는 `let`이라는 문법으로 변수를 만들었네요.
+
+왜 현재 코드에서는 `const`를 사용하지 않고, `let`을 사용하여 변수를 만들었을까요?
+
+잠시 조금 더 자세히 알아보는 시간을 갖도록 할까요?
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

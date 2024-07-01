@@ -1,0 +1,533 @@
+import Giscus from "@giscus/react";
+import { FileTree } from "nextra/components";
+import {
+  Sandpack,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeViewer,
+  SandpackPreview,
+  UnstyledOpenInCodeSandboxButton,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# 이미지 순회 완성하기
+
+기존에 우리가 작성한 자바스크립트의 기능을 다시 한번 살펴보면,
+
+```js copy showLineNumbers
+const rightArrow = document.querySelector(".right");
+const lists = document.querySelectorAll("li");
+
+let currentImageIndex = 0;
+
+rightArrow.onclick = function () {
+  lists[currentImageIndex].classList.remove("show");
+
+  currentImageIndex = currentImageIndex + 1;
+
+  lists[currentImageIndex].classList.add("show");
+};
+```
+
+우리는 사용자가 우측 방향 아이콘을 클릭할때마다 `currentImageIndex`를 1만큼 증가시키고, 증가시킨 인덱스에 위치한 이미지 요소를 보여주도록 코드를 작성했습니다.
+
+하지만 현재 코드의 내용대로라면 `currentImageIndex`는 계속 증가하기만 할 뿐, 다시 0번 인덱스로 돌아가지는 않습니다.
+
+<br/>
+## 1. 조건문을 활용한 판단
+
+우리의 `currentImageIndex`는 언제 0으로 돌아가야 할까요?
+
+`currentImageIndex`를 1만큼 증가시킨 값이 5(즉, 6번째 요소를 가리키게 되는 상황)가 되었다면 6번째 이미지 요소는 존재하지 않기 때문에 우리가 원하는대로 동작하지 않습니다.
+
+다음과 같이 코드를 수정해보세요.
+
+```js copy filename="app.js" showLineNumbers {11-13}
+const rightArrow = document.querySelector(".right");
+const lists = document.querySelectorAll("li");
+
+let currentImageIndex = 0;
+
+rightArrow.onclick = function () {
+  lists[currentImageIndex].classList.remove("show");
+
+  currentImageIndex = currentImageIndex + 1;
+
+  if (currentImageIndex === 5) {
+    currentImageIndex = 0;
+  }
+
+  lists[currentImageIndex].classList.add("show");
+};
+```
+
+<br/>
+### 1-1. 화면 결과
+
+우측 방향 아이콘을 여러 번 클릭하여, 이미지가 잘 순회하는지 확인해보세요.
+
+<br/>
+<SandpackProvider
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/index.html": {
+      code: `<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="carousel">
+      <div class="left arrow">◀︎</div>
+        <ul>
+          <li class="show">
+            <img src="https://picsum.photos/id/1/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/2/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/3/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/4/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/5/400/200" />
+          </li>
+        </ul>
+      <div class="right arrow">▶︎</div>
+    </div>
+    <script src="./app.js" type="text/javascript"></script>
+  </body>
+</html>`,
+    },
+    "/styles.css": {
+      code: `body {
+  background-color: #eeeeee;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  position: absolute;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+li {
+  position: absolute;
+  opacity: 0;
+}
+
+li.show {
+  opacity: 1;
+}`
+    },
+    "/app.js": {
+      code: `const rightArrow = document.querySelector(".right");
+const lists = document.querySelectorAll("li");
+
+let currentImageIndex = 0;
+
+rightArrow.onclick = function () {
+  lists[currentImageIndex].classList.remove("show");
+
+  currentImageIndex = currentImageIndex + 1;
+
+  if (currentImageIndex === 5) {
+    currentImageIndex = 0;
+  }
+
+  lists[currentImageIndex].classList.add("show");
+};`
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    initMode: "lazy",
+    autoReload: false,
+    activeFile: "/index.html",
+  }}
+  customSetup={{
+    entry: "index.html",
+  }}
+>
+  <SandpackLayout>
+    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "240px"}}/>
+  </SandpackLayout>
+</SandpackProvider>
+
+<br/>
+### 1-2. 코드 설명
+
+위에서 사용한 `if ~`는 조건문이라고 부르는 자바스크립트 문법입니다.
+
+소괄호 안에 들어간 구문의 결과값이 성립한다면, 조건문 중괄호 내부의 코드가 실행됩니다.
+
+또한 `===` 기호는 **"같다"**는 비교를 하는 비교 연산자입니다. 비교 연산자를 기준으로 하여, 좌측의 값과 우측의 값이 같은 값인지 비교합니다.
+
+즉, `currentImageIndex`가 5와 일치할때, 우리는 `currentImageIndex`를 0으로 다시 재할당(변경)하는 코드를 작성한 것입니다.
+
+<br/>
+## 2. Fade 효과 추가하기
+
+▼ 아래와 같이 CSS 코드를 수정해보세요.
+
+```css copy filename="styles.css" showLineNumbers {39}
+body {
+  background-color: #eeeeee;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  position: absolute;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+li {
+  position: absolute;
+  opacity: 0;
+  transition: all 1s linear;
+}
+
+li.show {
+  opacity: 1;
+}
+```
+
+<br/>
+### 2-1. 화면 결과
+
+우측 방향 아이콘을 여러 번 클릭하며, 이미지가 변경될때 Fade 효과가 나타나는지 확인해보세요.
+
+<br/>
+<SandpackProvider
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/index.html": {
+      code: `<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="carousel">
+      <div class="left arrow">◀︎</div>
+        <ul>
+          <li class="show">
+            <img src="https://picsum.photos/id/1/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/2/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/3/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/4/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/5/400/200" />
+          </li>
+        </ul>
+      <div class="right arrow">▶︎</div>
+    </div>
+    <script src="./app.js" type="text/javascript"></script>
+  </body>
+</html>`,
+    },
+    "/styles.css": {
+      code: `body {
+  background-color: #eeeeee;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  position: absolute;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+li {
+  position: absolute;
+  opacity: 0;
+  transition: all 1s linear;
+}
+
+li.show {
+  opacity: 1;
+}`
+    },
+    "/app.js": {
+      code: `const rightArrow = document.querySelector(".right");
+const lists = document.querySelectorAll("li");
+
+let currentImageIndex = 0;
+
+rightArrow.onclick = function () {
+  lists[currentImageIndex].classList.remove("show");
+
+  currentImageIndex = currentImageIndex + 1;
+
+  if (currentImageIndex === 5) {
+    currentImageIndex = 0;
+  }
+
+  lists[currentImageIndex].classList.add("show");
+};`
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    initMode: "lazy",
+    autoReload: false,
+    activeFile: "/index.html",
+  }}
+  customSetup={{
+    entry: "index.html",
+  }}
+>
+  <SandpackLayout>
+    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "240px"}}/>
+  </SandpackLayout>
+</SandpackProvider>
+
+<br/>
+### 2-2. 코드 설명
+
+`transition: all 1s linear;`이라는 구문은 요소의 transition(변화)를 설정하는 CSS입니다.
+
+- `all`은 해당 요소의 모든 CSS 변화에 대해 적용하라는 의미이고,
+- `1s`는 해당 변화는 1초간 지속되어야 한다는 의미이고,
+- `linear`는 해당 변화가 선형적으로 나타나야 한다는 의미입니다.
+
+조금 더 자세한 내용은 [이 페이지](https://poiemaweb.com/css3-transition)에서 살펴볼 수 있으니, 한번 살펴보고 여러분이 원하는 대로 변경해보세요.
+
+> 크게 중요한 부분은 아니니, 원하는 대로 적용되지 않고 이해가 되지 않더라도 걱정하지 마세요.
+
+<br/>
+## 3. 최종 결과 점검하기
+
+### 3-1. HTML 내용
+
+현재 HTML은 아래와 같은 상태입니다. ▼
+
+```html copy filename="index.html" showLineNumbers
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="carousel">
+      <div class="left arrow">◀︎</div>
+        <ul>
+          <li class="show">
+            <img src="https://picsum.photos/id/1/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/2/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/3/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/4/400/200" />
+          </li>
+          <li>
+            <img src="https://picsum.photos/id/5/400/200" />
+          </li>
+        </ul>
+      <div class="right arrow">▶︎</div>
+    </div>
+    <script src="./app.js" type="text/javascript"></script>
+  </body>
+</html>
+```
+
+<br/>
+### 3-2. CSS 내용
+
+현재 CSS은 아래와 같은 상태입니다. ▼
+
+```css copy filename="styles.css" showLineNumbers
+body {
+  background-color: #eeeeee;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  position: absolute;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+li {
+  position: absolute;
+  opacity: 0;
+  transition: all 1s linear;
+}
+
+li.show {
+  opacity: 1;
+}
+```
+
+<br/>
+### 3-3. JavaScript 내용
+
+현재 JavaScript는 아래와 같은 상태입니다. ▼
+
+```js copy filename="app.js" showLineNumbers
+const rightArrow = document.querySelector(".right.arrow");
+const lists = document.querySelectorAll("li");
+
+let currentImageIndex = 0;
+
+rightArrow.onclick = function () {
+  lists[currentImageIndex].classList.remove("show");
+
+  currentImageIndex = currentImageIndex + 1;
+
+  if (currentImageIndex === 5) {
+    currentImageIndex = 0;
+  }
+
+  lists[currentImageIndex].classList.add("show");
+};
+```
+
+이제 어느 정도 캐로우셀 UI가 완성되었습니다.
+
+프로그래밍은 사람에 따라, 상황에 따라 같은 결과물도 다양한 방식으로 구현할 수 있습니다.
+
+어떤 방식이 더 나은지에 대한 정답은 존재하지 않습니다. 상황에 따라 각 방식의 장단점을 비교하고 최선의 선택을 하는 것일 뿐입니다.
+
+## 4. 좌측 방향 아이콘 클릭 기능 추가하기
+
+지금까지 우리는 우측 방향 아이콘을 클릭했을때 어떻게 대응해야 하는지에 대해 기능을 구현해보았습니다.
+
+좌측 방향 아이콘을 클릭했을때 어떻게 동작해야 하는지 구현하는 부분은 여러분께서 이전 단계의 내용을 참고삼아, 스스로 구현해보시면 좋은 연습이 될 것 같습니다. 👏🏻
+
+> 좌측 방향 아이콘을 클릭하면 바로 이전 이미지가 보여지도록 하고, 첫 이미지에서 마지막 이미지로 순환될 수 있도록 작업해주세요.
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

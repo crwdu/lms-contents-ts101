@@ -1,29 +1,23 @@
 {
-  "before-you-start": {
-    "title": "1. 맛보기"
+  "list-of-types": {
+    "title": "자료형의 종류"
   },
-  "variables": {
-    "title": "2. 변수에 데이터 담기"
+  "numbers": {
+    "title": "숫자 자료형"
   },
-  "data-types": {
-    "title": "3. 데이터의 종류"
+  "boolean": {
+    "title": "불리언 자료형"
   },
-  "operators": {
-    "title": "4. 기본 연산자"
+  "string": {
+    "title": "문자열의 다양한 기능"
   },
-  "control-flow": {
-    "title": "5. 논리의 흐름, 제어문"
+  "null-and-undefined": {
+    "title": "null과 undefined 자료형"
   },
-  "functions": {
-    "title": "6. 논리의 집합, 함수"
+  "logical-operators": {
+    "title": "논리 연산자"
   },
-  "arrays": {
-    "title": "7. 배열 다루기"
-  },
-  "objects": {
-    "title": "8. 객체 다루기"
-  },
-  "scope": {
-    "title": "9. 변수의 접근 범위"
+  "comparison-operators": {
+    "title": "비교 연산자"
   }
 }

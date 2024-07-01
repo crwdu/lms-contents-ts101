@@ -1,23 +1,65 @@
 {
   "index": {
-    "title": "🧩 JavaScript 101"
+    "title": "🧩 웹 개발 기초 핸드북",
+    "theme": {
+      "typesetting": "article",
+      "sidebar": true,
+      "toc": false,
+      "breadcrumb": false
+    }
   },
   "html": {
-    "title": "1. HTML 기초"
+    "title": "1. HTML 기초",
+    "theme": {
+      "typesetting": "article",
+      "sidebar": true,
+      "toc": true,
+      "breadcrumb": false
+    }
   },
   "google-project-1": {
-    "title": "2. 구글 프로젝트 소개"
-  },
-  "css-intro": {
-    "title": "3. CSS 기초"
-  },
-  "google-project-2": {
-    "title": "4. 구글 프로젝트 꾸미기"
+    "title": "2. 구글 프로젝트",
+    "theme": {
+      "typesetting": "article",
+      "sidebar": true,
+      "toc": true,
+      "breadcrumb": false
+    }
   },
   "carousel-project-1": {
-    "title": "5. 캐로우셀 프로젝트"
+    "title": "3. 캐로우셀 프로젝트",
+    "theme": {
+      "typesetting": "article",
+      "sidebar": true,
+      "toc": true,
+      "breadcrumb": false
+    }
+  },
+  "messenger-project-1": {
+    "title": "4. 실시간 메신저 프로젝트",
+    "theme": {
+      "typesetting": "article",
+      "sidebar": true,
+      "toc": true,
+      "breadcrumb": false
+    }
   },
   "javascript-grammar": {
-    "title": "6. JavaScript 문법"
+    "title": "5. JavaScript 문법",
+    "theme": {
+      "typesetting": "article",
+      "sidebar": true,
+      "toc": true,
+      "breadcrumb": false
+    }
+  },
+  "javascript-quiz": {
+    "title": "6. JavaScript 퀴즈",
+    "theme": {
+      "typesetting": "article",
+      "sidebar": true,
+      "toc": true,
+      "breadcrumb": false
+    }
   }
 }

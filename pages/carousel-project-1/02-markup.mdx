@@ -1,3 +1,4 @@
+import Giscus from "@giscus/react";
 import { FileTree } from "nextra/components";
 import {
   Sandpack,
@@ -9,24 +10,18 @@ import {
 } from "@codesandbox/sandpack-react";
 import { nightOwl } from "@codesandbox/sandpack-themes";
 
-# 마크업 구조
+<br/>
+# 정적인 페이지 작업하기
 
 우선 기본적인 HTML의 마크업 구조부터 잡아보도록 하겠습니다.
 
 <br/>
+## 1. 이미지 추가하기
 
-## 이미지 보여주기
+캐로우셀 UI에서는 총 5개의 이미지를 순차적으로 보여줄 계획입니다. 우선은 1개의 이미지를 추가해보도록 하겠습니다.
 
-캐로우셀 UI에서는 총 5개의 이미지를 순차적으로 보여줄 계획입니다. 그렇기에 우선 5개의 이미지를 나열해보도록 하겠습니다.
-
-<br/>
-<br/>
-
-<SandpackProvider template="vanilla"
-  theme={nightOwl}
-  files={{
-    "/index.html": {
-      code: `<!DOCTYPE html>
+```html showLineNumbers filename="index.html" {7-11}
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <title>🔰 바닐라코딩</title>
@@ -38,113 +33,11 @@ import { nightOwl } from "@codesandbox/sandpack-themes";
       </li>
     </ul>
   </body>
-</html>`,
-      active: true
-    },
-  }}
-  options={{
-    initMode: "lazy",
-    showOpenInCodeSandbox: false,
-    showRefreshButton: false,
-    readOnly: true,
-  }}
-  customSetup={{
-    entry: "index.html",
-  }}>
-  <SandpackLayout>
-    <SandpackCodeViewer
-      decorators={[
-        {
-          className: "widget red",
-          elementAttributes: { "data-id": "1" },
-          line: 7,
-          startColumn: 4,
-          endColumn: 8,
-        },
-        {
-          className: "widget red",
-          elementAttributes: { "data-id": "1" },
-          line: 11,
-          startColumn: 4,
-          endColumn: 9,
-        },
-        {
-          className: "widget yellow",
-          elementAttributes: { "data-id": "2" },
-          line: 8,
-          startColumn: 6,
-          endColumn: 10,
-        },
-        {
-          className: "widget yellow",
-          elementAttributes: { "data-id": "2" },
-          line: 10,
-          startColumn: 6,
-          endColumn: 11,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "3" },
-          line: 9,
-          startColumn: 8,
-          endColumn: 56,
-        },
-      ]}
-      showTabs
-      showLineNumbers
-      style={{ height: "350px"}}
-    />
-  </SandpackLayout>
-</SandpackProvider>
+</html>
+```
 
 <br/>
-
-### 코드 설명
-
-<br/>
-
-<Callout type="info" emoji="ℹ️">
-  어떤 태그를 선택하여 구현하는지는 대부분의 상황에 기능상 문제를 야기하지 않습니다. 그렇지만, 우리는 항상 **시맨틱 마크업**(Semantic Markup)을 적용할 수 있도록 노력해야 합니다.
-</Callout>
-
-#### 왜 마크업을 시맨틱하게 작성해야 할까요?
-
-[시맨틱 마크업(Semantic Markup)](https://developer.mozilla.org/ko/docs/Glossary/Semantics#html_%EC%8B%9C%EB%A7%A8%ED%8B%B1)이란, 의미있는 태그를 사용하는 작성 방식을 뜻하고 아래와 같은 장점이 있을 수 있습니다.
-
-1. 동료들과의 협업 과정에서 누구나 읽고 이해하기 쉬운 코드를 작성할 수 있습니다.
-2. 검색 엔진이 우리 웹 사이트의 구조에 대해 더욱 잘 이해할 수 있어, 검색 엔진 최적화가 가능합니다.
-
-<br/>
-
-#### 1. `ul` 태그
-
-[**U**nordered **L**ist](https://developer.mozilla.org/ko/docs/Web/HTML/Element/ul)라는 의미의 태그입니다. 요소들의 절대적인 순서를 명시적으로 표기해야 하는 경우 외에 일반적인 목록을 만들때 사용하며, `ul` 태그 내부에는 목록에 속하는 리스트 요소들을 추가할 수 있습니다.
-
-우리는 이미지들을 나열할 계획이기 때문에, 목록을 의미하는 태그를 사용하도록 하겠습니다.
-
-> [**O**rdered **L**ist](https://developer.mozilla.org/ko/docs/Web/HTML/Element/ol)라는 의미의 `ol` 태그도 있습니다. 1번, 2번 등 절대적인 순서를 표기해야 하는 경우에 사용합니다.
-
-<br/>
-
-#### 2. `li` 태그
-
-[**Li**st](https://developer.mozilla.org/ko/docs/Web/HTML/Element/li)라는 의미의 태그입니다. 목록 내부에 속한 리스트 요소를 추가하기 위해 사용합니다. `li` 태그는 항상 `ul` 혹은 `ol` 태그 하위에 위치해야 합니다.
-
-현재 우리는 이미지 목록을 나열할 계획이기 때문에, 각각의 이미지를 `li` 태그 내부에 작성하도록 하겠습니다.
-
-<br/>
-
-#### 3. `img` 태그
-
-예측하셨겠지만, [**im**a**g**e](https://developer.mozilla.org/ko/docs/Web/HTML/Element/img)라는 의미의 태그입니다. HTML 문서에 이미지를 추가하고 싶을때 사용합니다.
-
-`img` 태그의 `src` 속성을 활용하여 우리가 보여주고 싶은 이미지의 주소를 추가하면 화면에 이미지가 보여지게 됩니다.
-
-> 이미지로 사용된 `https://picsum.photos/id/1/400/200`은 무료 이미지를 제공하는 `https://picsum.photos/` 서비스를 사용한 주소입니다.
-
-<br/>
-
-### 화면 결과
+### 1-1. 화면 결과
 
 위와 같이 코드를 작성하여 화면을 확인한다면, 아래와 같이 보여지는 화면을 확인할 수 있습니다.
 
@@ -186,21 +79,54 @@ import { nightOwl } from "@codesandbox/sandpack-themes";
 </SandpackProvider>
 
 <br/>
+### 1-2. 코드 설명
 
-## 이미지 5개 나열하기
+<br/>
+#### A. Semantic Markup
 
-아직 우리가 원하는 디자인의 페이지는 아니지만, 우선 위에 작성한 코드에서 이미지를 추가하여 5개를 보여주도록 하겠습니다.
+[시맨틱 마크업(Semantic Markup)](https://developer.mozilla.org/ko/docs/Glossary/Semantics#html_%EC%8B%9C%EB%A7%A8%ED%8B%B1)이란, 의미있는 태그를 사용하는 작성 방식을 뜻하고 아래와 같은 장점이 있을 수 있습니다.
+
+1. 동료들과의 협업 과정에서 누구나 읽고 이해하기 쉬운 코드를 작성할 수 있습니다.
+2. 검색 엔진이 우리 웹 사이트의 구조에 대해 더욱 잘 이해할 수 있어, 검색 엔진 최적화가 가능합니다.
+
+<Callout emoji="📌">
+  어떤 태그를 선택하여 구현하는지는 대부분의 상황에 기능상 문제를 야기하지 않습니다. 그렇지만, 우리는 항상 **시맨틱 마크업**(Semantic Markup)을 적용할 수 있도록 노력해야 합니다.
+</Callout>
+
+<br/>
+#### B. `ul` 태그
+
+[**U**nordered **L**ist](https://developer.mozilla.org/ko/docs/Web/HTML/Element/ul)라는 의미의 태그입니다. 요소들의 절대적인 순서를 명시적으로 표기해야 하는 경우 외에 일반적인 목록을 만들때 사용하며, `ul` 태그 내부에는 목록에 속하는 리스트 요소들을 추가할 수 있습니다.
+
+우리는 이미지들을 나열할 계획이기 때문에, 목록을 의미하는 태그를 사용하도록 하겠습니다.
+
+> [**O**rdered **L**ist](https://developer.mozilla.org/ko/docs/Web/HTML/Element/ol)라는 의미의 `ol` 태그도 있습니다. 1번, 2번 등 절대적인 순서를 표기해야 하는 경우에 사용합니다.
+
+<br/>
+#### C. `li` 태그
+
+[**Li**st](https://developer.mozilla.org/ko/docs/Web/HTML/Element/li)라는 의미의 태그입니다. 목록 내부에 속한 리스트 요소를 추가하기 위해 사용합니다. `li` 태그는 항상 `ul` 혹은 `ol` 태그 하위에 위치해야 합니다.
+
+현재 우리는 이미지 목록을 나열할 계획이기 때문에, 각각의 이미지를 `li` 태그 내부에 작성하도록 하겠습니다.
+
+<br/>
+#### D. `img` 태그
+
+예측하셨겠지만, [**im**a**g**e](https://developer.mozilla.org/ko/docs/Web/HTML/Element/img)라는 의미의 태그입니다. HTML 문서에 이미지를 추가하고 싶을때 사용합니다.
+
+`img` 태그의 `src` 속성을 활용하여 우리가 보여주고 싶은 이미지의 주소를 추가하면 화면에 이미지가 보여지게 됩니다.
+
+> 이미지로 사용된 `https://picsum.photos/id/1/400/200`은 무료 이미지를 제공하는 [Picsum](https://picsum.photos) 서비스를 사용한 주소입니다.
+
+<br/>
+## 2. 이미지 5개 나열하기
+
+아직 우리가 원하는 디자인의 페이지는 아니지만, 우선 위에 작성한 코드에서 이미지를 추가하여 총 5개의 이미지를 보여주도록 하겠습니다.
 
 아래와 같이 코드를 추가해보세요.
 
-<br/>
-<br/>
-
-<SandpackProvider template="vanilla"
-  theme={nightOwl}
-  files={{
-    "/index.html": {
-      code: `<!DOCTYPE html>
+```html showLineNumbers filename="index.html" {11-22}
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <title>🔰 바닐라코딩</title>
@@ -224,127 +150,11 @@ import { nightOwl } from "@codesandbox/sandpack-themes";
       </li>
     </ul>
   </body>
-</html>`,
-      active: true
-    },
-  }}
-  options={{
-    initMode: "lazy",
-    showOpenInCodeSandbox: false,
-    showRefreshButton: false,
-    readOnly: true,
-  }}
-  customSetup={{
-    entry: "index.html",
-  }}>
-  <SandpackLayout>
-    <SandpackCodeViewer
-      decorators={[
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "1" },
-          line: 11,
-          startColumn: 6,
-          endColumn: 10,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "1" },
-          line: 13,
-          startColumn: 6,
-          endColumn: 11,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "1" },
-          line: 12,
-          startColumn: 8,
-          endColumn: 56,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "2" },
-          line: 14,
-          startColumn: 6,
-          endColumn: 10,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "2" },
-          line: 16,
-          startColumn: 6,
-          endColumn: 11,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "2" },
-          line: 15,
-          startColumn: 8,
-          endColumn: 56,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "3" },
-          line: 17,
-          startColumn: 6,
-          endColumn: 10,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "3" },
-          line: 19,
-          startColumn: 6,
-          endColumn: 11,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "3" },
-          line: 18,
-          startColumn: 8,
-          endColumn: 56,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "4" },
-          line: 20,
-          startColumn: 6,
-          endColumn: 10,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "4" },
-          line: 22,
-          startColumn: 6,
-          endColumn: 11,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "4" },
-          line: 21,
-          startColumn: 8,
-          endColumn: 56,
-        },
-      ]}
-      showTabs
-      showLineNumbers
-      style={{ height: "600px"}}
-    />
-  </SandpackLayout>
-</SandpackProvider>
+</html>
+```
 
 <br/>
-
-<Callout type="info" emoji="ℹ️">
-  코드를 작성하는 과정에서 오타를 주의하세요.
-
-  코드를 빠르게 입력하려 하지 마시고, **천천히 정확하게** 입력하도록 주의하세요.
-
-  개발자는 코드를 빨리 치는 사람이 아닙니다.
-</Callout>
-
-<br/>
-
-### 화면 결과
+### 2-1. 화면 결과
 
 아래와 같은 화면이 보여지는 것을 확인하셨나요?
 
@@ -398,35 +208,83 @@ import { nightOwl } from "@codesandbox/sandpack-themes";
 </SandpackProvider>
 
 <br/>
+### 2-2. 코드 설명
 
-## 이미지 가운데 정렬하기
+이전 단계의 코드와 거의 동일하지만, 자세히 보시면 각각의 이미지 주소가 다릅니다. 주의하세요.
 
-결과적으로 우리는 하나의 이미지를 보여주고 사용자가 우측, 좌측 화살표를 클릭했을때 다른 이미지로 교체할 예정입니다.
+<Callout emoji="📌">
+  코드를 작성하는 과정에서 오타를 주의하세요.
 
-방법은 여러 가지가 있겠지만, 이미지들을 화면 상에서 겹치게 배치해놓고 우리가 보여주어야 할 순서의 이미지를 보여주고, 보여주지 않아야 할 이미지를 숨김처리 할 예정입니다.
+  코드를 빠르게 입력하려 하지 마시고, **천천히 정확하게** 입력하도록 주의하세요.
 
-우선 하나의 이미지만 보여주도록 하고, 모든 이미지가 같은 위치에 보여질 수 있도록 해보겠습니다.
-
-<br/>
-<br/>
-
-> 아래와 같이 5개의 이미지를 곂치게 만들고, 가운데 위치하도록 정렬해보도록 하겠습니다.
+  개발자는 코드를 빨리 치는 사람이 아니라, 논리적인 사고를 통해 주어진 문제를 해결하는 사람입니다.
+</Callout>
 
 <br/>
+## 3. CSS 추가하기
 
+우선 CSS 파일을 만들고, 간단히 페이지 배경색을 설정하는 코드를 추가해보겠습니다.
+
+<FileTree>
+  <FileTree.Folder name="프로젝트 폴더" defaultOpen>
+    <FileTree.File name="index.html" />
+    <FileTree.File name="styles.css ⭐️" />
+  </FileTree.Folder>
+</FileTree>
+
+```css filename="styles.css"
+body {
+  background-color: #eeeeee;
+}
+```
+
+CSS 파일이 만들어 진 후, HTML 파일에 CSS파일의 정보를 추가해주어야 합니다. 아래와 같이 HTML 파일을 수정해보세요.
+
+```html filename="index.html" showLineNumbers {5}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <ul>
+      <li>
+        <img src="https://picsum.photos/id/1/400/200" />
+      </li>
+      <li>
+        <img src="https://picsum.photos/id/2/400/200" />
+      </li>
+      <li>
+        <img src="https://picsum.photos/id/3/400/200" />
+      </li>
+      <li>
+        <img src="https://picsum.photos/id/4/400/200" />
+      </li>
+      <li>
+        <img src="https://picsum.photos/id/5/400/200" />
+      </li>
+    </ul>
+  </body>
+</html>
+```
+
+이 상태에서 HTML 파일을 브라우저에서 열어 화면을 확인해보면, 아래와 같은 화면이 나타나야 합니다.
+
+<br/>
+### 3-1. 화면 결과
+
+<br/>
 <SandpackProvider
   template="vanilla"
   theme={nightOwl}
   files={{
     "/index.html": {
-      code: `
-<!DOCTYPE html>
+      code: `<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Carousel</title>
-  <link href="./style.css" rel="stylesheet" />
+  <title>🔰 바닐라코딩</title>
+  <link href="./styles.css" rel="stylesheet" />
 </head>
 <body>
   <ul>
@@ -450,7 +308,347 @@ import { nightOwl } from "@codesandbox/sandpack-themes";
 </html>
 `,
     },
-    "/style.css": {
+    "/styles.css": {
+      code: `body {
+  background-color: #eeeeee;
+}
+`
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    initMode: "lazy",
+    autoReload: false,
+    activeFile: "/index.html",
+  }}
+  customSetup={{
+    entry: "index.html",
+  }}
+>
+  <SandpackLayout>
+    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "1100px"}}/>
+  </SandpackLayout>
+</SandpackProvider>
+
+배경색이 잘 변경된 것을 보니, CSS 파일이 잘 작동하는 것 같습니다.
+
+<Callout emoji="📌">
+  혹시 화면이 다르게 보인다면, 작성한 코드에 오타가 없는지 잘 확인해보세요!
+</Callout>
+
+<br/>
+### 3-2. 코드 설명
+
+우리가 사용한 `#eeeeee`라는 값은 Hex Code라고 불리우는 형식으로서, 색상을 나타냅니다.
+
+CSS에서는 원하는 색을 Hex Code, RGB, HSL, 혹은 브라우저에서 지정된 색상 이름을 활용하여 사용할 수 있습니다.
+
+일반적으로는 Hex Code, RGB, 혹은 브라우저에서 이미 지정되어 있는 색상 이름을 사용하는 것이 가장 흔하기 때문에 이 내용들에 대해 잠시 살펴보겠습니다.
+
+<br/>
+#### A. Hex Code
+
+Hex Code는 일반적으로 6자리의 표기법을 사용합니다. (8자리를 사용하는 경우도 있습니다.)
+
+`#RRGGBB`의 양식을 따르고, R은 Red, G는 Green, B는 Blue를 뜻합니다.
+
+각 색상마다 값은, 0을 최저값으로 하고 F를 최고값으로 하여 아래와 같은 범위로 이루어집니다.
+
+> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F
+
+그렇기에, `#000000`은 RGB가 모두 최저값(가장 어두운)인 `00`이므로 검은 색을 의미하고, `#ffffff`는 최고값(가장 밝은)인 `ff`이므로 흰 색을 의미합니다.
+
+> 대소문자는 구분하여 사용하지 않지만, 일관되게 사용하는 것이 좋습니다.
+
+```css
+p {
+  color: #000000; /* black ⚫️ */
+}
+
+div {
+  color: #ffffff; /* white ⚪️ */
+}
+```
+
+여러분이 원하는 색상을 Hex Code로 찾고 싶다면, [HTML Color Codes](https://htmlcolorcodes.com/)와 같은 서비스를 사용할 수 있습니다.
+
+<br/>
+#### B. RGB
+
+RGB는 조금 더 직관적으로 Red, Green, Blue의 조합을 나타내는 형식입니다.
+
+각 색상은 0부터 255까지의 숫자 범위를 이용해 표현할 수 있고, 0이 가장 낮은(어두운) 최저값이고 255가 가장 높은(밝은) 최고값입니다.
+
+```css
+p {
+  color: rgb(0, 0, 0); /* black ⚫️ */
+}
+
+div {
+  color: rgb(255, 255, 255); /* white ⚪️ */
+}
+```
+
+<br/>
+#### C. 브라우저 기본 제공 색상명
+
+세밀하게 색상을 선택하고 싶다면, Hex Code나 RGB 값을 사용하는 경우가 많지만 브라우저는 편의를 위해 이미 설정된 색상 값들을 제공하기도 합니다.
+
+그렇기 때문에, `white`나 `black`과 같이 CSS 코드에서 색상을 작성해도 우리가 원하는 색상이 잘 나타나는 것입니다.
+
+```css
+p {
+  color: black; /* black ⚫️ */
+}
+
+div {
+  color: white; /* white ⚪️ */
+}
+```
+
+지정된 모든 색상의 목록은 [w3schools](https://www.w3schools.com/colors/colors_names.asp)과 같은 웹 페이지에서 찾을 수 있습니다.
+
+<br/>
+## 4. 이미지 가운데 배치하기
+
+현재 우리의 이미지들은 좌측으로 정렬한 상태로 배치되어 있습니다. 우리는 궁극적으로 중앙에 배치하고 싶기 때문에, 수정해보도록 하겠습니다.
+
+아래와 같이 CSS 파일에 내용을 추가해보세요.
+
+```css filename="styles.css"
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+}
+```
+
+<br/>
+### 4-1. 화면 결과
+
+<br/>
+<SandpackProvider
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/index.html": {
+      code: `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>🔰 바닐라코딩</title>
+  <link href="./styles.css" rel="stylesheet" />
+</head>
+<body>
+  <ul>
+    <li>
+      <img src="https://picsum.photos/id/1/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/2/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/3/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/4/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/5/400/200" />
+    </li>
+  </ul>
+</body>
+</html>
+`,
+    },
+    "/styles.css": {
+      code: `body {
+  background-color: #eeeeee;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+}`
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    initMode: "lazy",
+    autoReload: false,
+    activeFile: "/index.html",
+  }}
+  customSetup={{
+    entry: "index.html",
+  }}
+>
+  <SandpackLayout>
+    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "1100px"}}/>
+  </SandpackLayout>
+</SandpackProvider>
+
+<br/>
+### 4-2. 코드 설명
+
+<br/>
+#### A. 태그 선택자로 `ul` 요소 선택하기
+
+CSS 선택자 문법을 활용해 `ul` 요소를 선언해주었습니다. 우리는 목록 전체를 가운데 정렬할 계획이기 때문에 `ul` 요소를 선택해야 합니다. `li`를 선택하여 가운데 정렬하는 것도 가능하겠지만, 결국 목록 전체에 대한 설정을 하는 것이 편의상 나을것 같습니다.
+
+<br/>
+#### B. `ul` 요소의 높이와 너비 설정하기
+
+`ul` 요소의 높이와 너비를 이미지와 동일한 사이즈로 설정해주었습니다. 추후에 정확한 레이아웃을 그리기 위함도 있지만, 수평 상에서 가운데 정렬을 하기 위해서는 너비가 설정되어야 합니다.
+
+<br/>
+#### C. 가운데 정렬하기
+
+`margin`을 활용하여 가운데 정렬을 했습니다. 위와 아래는 `0`으로 설정하고, 좌우는 `auto`로 설정했습니다.
+
+`ul`은 [Block 요소](../google-project-2/03-inline-block.mdx#1-1-가운데-정렬하기)이기 때문에, 너비와 높이를 지정해준 상태에서 좌우 `margin`을 `auto`로 설정하여 가로선 상에서 중앙에 배치할 수 있습니다.
+
+<br/>
+## 5. 기본 스타일 제거하기
+
+모든 HTML 요소는 브라우저에서 기본적으로 제공되는 스타일이 있습니다.
+
+현재 우리가 작업한 화면을 다시 한번 보시면, 이미지 좌측에 `●` 모양의 아이콘이 나타난 것을 보실 수 있는데, 이것은 브라우저에서 `ul` 요소 내부의 `li` 요소들에게 제공하는 기본 스타일이 적용된 것입니다.
+
+우리는 필요하지 않으므로, 제거해보도록 하겠습니다. 아래와 같이 CSS 파일에 내용을 추가해보세요.
+
+```css filename="styles.css" {5-6}
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}
+```
+
+<br/>
+### 5-1. 화면 결과
+
+<br/>
+<SandpackProvider
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/index.html": {
+      code: `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>🔰 바닐라코딩</title>
+  <link href="./styles.css" rel="stylesheet" />
+</head>
+<body>
+  <ul>
+    <li>
+      <img src="https://picsum.photos/id/1/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/2/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/3/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/4/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/5/400/200" />
+    </li>
+  </ul>
+</body>
+</html>
+`,
+    },
+    "/styles.css": {
+      code: `body {
+  background-color: #eeeeee;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}`
+    },
+  }}
+  options={{
+    showLineNumbers: true,
+    initMode: "lazy",
+    autoReload: false,
+    activeFile: "/index.html",
+  }}
+  customSetup={{
+    entry: "index.html",
+  }}
+>
+  <SandpackLayout>
+    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "1100px"}}/>
+  </SandpackLayout>
+</SandpackProvider>
+
+<br/>
+### 5-2. 코드 설명
+
+- `list-style`을 설정한 것은 기존 화면에서 이미지 좌측에 보여지던 `●` 아이콘을 사라지게 하는 역할을 합니다.
+- `ul`에게 기본적으로 적용되는 스타일에는 좌측 Padding이 포함되어 있습니다. `padding: 0;`을 설정하여 기본 적용되는 Padding을 초기화 해주었습니다.
+
+> 우리가 설정한 Padding 값을 다시 없애보시면, (눈으로 알아채기는 어려울 수 있지만) 이미지 좌측 공간에 약간의 추가 여백이 생기는 것을 확인할 수 있습니다.
+
+<br/>
+## 6. 한개의 이미지만 보여주기
+
+결과적으로 우리는 하나의 이미지를 보여주고 사용자가 우측, 좌측 화살표를 클릭했을때 다른 이미지로 교체할 예정입니다.
+
+방법은 여러 가지가 있겠지만, 이미지들을 화면 상에서 겹치게 배치해놓고 우리가 보여주어야 할 순서의 이미지를 보여주고, 보여주지 않아야 할 이미지를 숨김처리 할 예정입니다.
+
+우선 첫번째 이미지만 보여주도록 하고, 모든 이미지가 같은 위치에서 뒷쪽에 숨겨질 수 있도록 해보겠습니다.
+
+> 아래 화면은 우리가 구현할 구조를 조금 더 입체감있게 표현하기 위한 것입니다. 우리가 구현할 화면에는 1개의 이미지만 보여지도록 할 예정이니 혼돈하지 마세요.
+
+<br/>
+<SandpackProvider
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/index.html": {
+      code: `
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Carousel</title>
+  <link href="./styles.css" rel="stylesheet" />
+</head>
+<body>
+  <ul>
+    <li>
+      <img src="https://picsum.photos/id/1/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/2/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/3/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/4/400/200" />
+    </li>
+    <li>
+      <img src="https://picsum.photos/id/5/400/200" />
+    </li>
+  </ul>
+</body>
+</html>
+`,
+    },
+    "/styles.css": {
       code: `
 ul {
   width: 400px;
@@ -516,392 +714,9 @@ li:nth-of-type(5) {
   </SandpackLayout>
 </SandpackProvider>
 
-<br/>
+우선 아래와 같이 CSS에 코드를 추가해보세요.
 
-### CSS 파일 만들기
-
-우선 CSS 파일을 만들고, 간단히 페이지 배경색을 설정하는 코드를 추가해보겠습니다.
-
-<br/>
-
-<SandpackProvider template="vanilla"
-  theme={nightOwl}
-  files={{
-    "/style.css": {
-      code: `body {
-  background-color: #005dc70d;
-}`,
-      active: true
-    },
-  }}
-  options={{
-    initMode: "lazy",
-    showOpenInCodeSandbox: false,
-    showRefreshButton: false,
-    readOnly: true,
-  }}
-  customSetup={{
-    entry: "style.css",
-  }}>
-  <SandpackLayout>
-    <SandpackCodeViewer
-      showTabs
-      showLineNumbers
-      style={{ height: "140px"}}
-    />
-  </SandpackLayout>
-</SandpackProvider>
-
-<FileTree>
-  <FileTree.Folder name="프로젝트 폴더" defaultOpen>
-    <FileTree.File name="index.html" />
-    <FileTree.File name="style.css ⭐️" />
-  </FileTree.Folder>
-</FileTree>
-
-<Callout type="info" emoji="ℹ️">
-  CSS 파일은 위와 같이 HTML 파일과 같은 폴더(디렉토리) 내에 만들어주세요.
-</Callout>
-
-<br/>
-
-### HTML과 CSS 연결하기
-
-HTML 파일에 CSS파일의 정보를 추가해주어야 합니다. 아래와 같이 HTML 파일을 수정해보세요.
-
-<br/>
-
-<SandpackProvider template="vanilla"
-  theme={nightOwl}
-  files={{
-    "/index.html": {
-      code: `<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <title>🔰 바닐라코딩</title>
-    <link href="./style.css" rel="stylesheet" />
-  </head>
-  <body>
-    <ul>
-      <li>
-        <img src="https://picsum.photos/id/1/400/200" />
-      </li>
-      <li>
-        <img src="https://picsum.photos/id/2/400/200" />
-      </li>
-      <li>
-        <img src="https://picsum.photos/id/3/400/200" />
-      </li>
-      <li>
-        <img src="https://picsum.photos/id/4/400/200" />
-      </li>
-      <li>
-        <img src="https://picsum.photos/id/5/400/200" />
-      </li>
-    </ul>
-    <script src="/app.js" />
-  </body>
-</html>`,
-      active: true
-    },
-  }}
-  options={{
-    initMode: "lazy",
-    showOpenInCodeSandbox: false,
-    showRefreshButton: false,
-    readOnly: true,
-  }}
-  customSetup={{
-    entry: "index.html",
-  }}>
-  <SandpackLayout>
-    <SandpackCodeViewer
-      decorators={[
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "1" },
-          line: 5,
-          startColumn: 4,
-          endColumn: 48,
-        },
-      ]}
-      showTabs
-      showLineNumbers
-      style={{ height: "600px"}}
-    />
-  </SandpackLayout>
-</SandpackProvider>
-
-이 상태에서 HTML 파일을 브라우저에서 열어 화면을 확인해보면, 아래와 같은 화면이 나타나야 합니다.
-
-> 혹시 화면이 다르게 보인다면, 작성한 코드에 오타가 없는지 잘 확인해보세요!
-
-<br/>
-
-<SandpackProvider
-  template="vanilla"
-  theme={nightOwl}
-  files={{
-    "/index.html": {
-      code: `<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <title>🔰 바닐라코딩</title>
-  <link href="./style.css" rel="stylesheet" />
-</head>
-<body>
-  <ul>
-    <li>
-      <img src="https://picsum.photos/id/1/400/200" />
-    </li>
-    <li>
-      <img src="https://picsum.photos/id/2/400/200" />
-    </li>
-    <li>
-      <img src="https://picsum.photos/id/3/400/200" />
-    </li>
-    <li>
-      <img src="https://picsum.photos/id/4/400/200" />
-    </li>
-    <li>
-      <img src="https://picsum.photos/id/5/400/200" />
-    </li>
-  </ul>
-</body>
-</html>
-`,
-    },
-    "/style.css": {
-      code: `body {
-  background-color: #005dc70d;
-}
-`
-    },
-  }}
-  options={{
-    showLineNumbers: true,
-    initMode: "lazy",
-    autoReload: false,
-    activeFile: "/index.html",
-  }}
-  customSetup={{
-    entry: "index.html",
-  }}
->
-  <SandpackLayout>
-    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "1100px"}}/>
-  </SandpackLayout>
-</SandpackProvider>
-
-<br/>
-
-배경색이 잘 변경된 것을 보니, CSS 파일이 잘 작동하는 것 같습니다. 이제 다음 단계로 넘어가보겠습니다.
-
-### 코드 설명
-
-우리가 보여줄 이미지는 화면에서 가운데 배치되어야 합니다. 우선 다음과 같이 CSS 파일에 내용을 추가하고 수평 상에서 가운데 정렬되도록 만들어 보겠습니다.
-
-<br/>
-
-<SandpackProvider template="vanilla"
-  theme={nightOwl}
-  files={{
-    "/style.css": {
-      code: `body {
-  background-color: #005dc70d;
-}
-
-ul {
-  height: 200px;
-  width: 400px;
-  margin: 0 auto;
-  list-style: none;
-  padding: 0;
-}`,
-      active: true
-    },
-  }}
-  options={{
-    initMode: "lazy",
-    showOpenInCodeSandbox: false,
-    showRefreshButton: false,
-    readOnly: true,
-  }}
-  customSetup={{
-    entry: "style.css",
-  }}>
-  <SandpackLayout>
-    <SandpackCodeViewer
-      decorators={[
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "1" },
-          line: 4,
-          startColumn: 1,
-          endColumn: 3,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "2" },
-          line: 6,
-          startColumn: 2,
-          endColumn: 16,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "3" },
-          line: 7,
-          startColumn: 2,
-          endColumn: 15,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "4" },
-          line: 8,
-          startColumn: 2,
-          endColumn: 17,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "5" },
-          line: 9,
-          startColumn: 2,
-          endColumn: 19,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "6" },
-          line: 10,
-          startColumn: 2,
-          endColumn: 13,
-        },
-      ]}
-      showTabs
-      showLineNumbers
-      style={{ height: "280px"}}
-    />
-  </SandpackLayout>
-</SandpackProvider>
-
-<br/>
-
-#### 1. 태그 선택자로 `ul` 요소 선택하기
-
-CSS 선택자 문법을 활용해 `ul` 요소를 선언해주었습니다. 우리는 목록 전체를 가운데 정렬할 계획이기 때문에 `ul` 요소를 선택해야 합니다. `li`를 선택하여 가운데 정렬하는 것도 가능하겠지만, 결국 목록 전체에 대한 설정을 하는 것이 편의상 나을것 같습니다.
-
-<br/>
-
-#### 2 & 3. `ul` 요소의 높이와 너비 설정하기
-
-`ul` 요소의 높이와 너비를 이미지와 동일한 사이즈로 설정해주었습니다. 추후에 정확한 레이아웃을 그리기 위함도 있지만, 수평 상에서 가운데 정렬을 하기 위해서는 너비가 설정되어야 합니다.
-
-<br/>
-
-#### 4. 가운데 정렬하기
-
-`margin`을 활용하여 가운데 정렬을 했습니다. 위와 아래는 `0`으로 설정하고, 좌우는 `auto`로 설정했습니다.
-
-<Callout type="info" emoji="ℹ️">
-  너비가 지정되어 있는 블록 요소에게 좌우 `margin` 값을 `auto`로 설정하면 수평 상에서 가운데로 정렬됩니다.
-</Callout>
-
-<br/>
-
-#### 5. 리스트 기본 스타일 제거하기
-
-기존 화면에서는 이미지 좌측에 `●` 모양이 보여지는 상태였습니다. `li` 요소에게 주어지는 기본적인 스타일입니다. 우리는 필요가 없으므로, `list-style` 설정을 제거해주었습니다.
-
-<br/>
-
-#### 6. 리스트 기본 패딩 제거하기
-
-브라우저에서 여러 가지 요소들에게 기본적으로 설정하는 스타일이 있습니다. 바로 이전에 제거했던 `list-style`도 그 중 하나였죠.
-
-브라우저에서는 `li` 요소에게 좌측 `padding` 값을 기본적으로 적용합니다. 이 또한 필요없으므로, `padding`을 `0`으로 설정 해주었습니다.
-
-### 화면 결과
-
-다음과 같이 화면이 변경된 것을 확인할 수 있습니다. 가운데 정렬이 예쁘게 완성되었습니다. 이제 요소들을 같은 위치에 배치하도록 해볼까요?
-
-<br/>
-
-<SandpackProvider
-  template="vanilla"
-  theme={nightOwl}
-  files={{
-    "/index.html": {
-      code: `<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <title>🔰 바닐라코딩</title>
-  <link href="./style.css" rel="stylesheet" />
-</head>
-<body>
-  <ul>
-    <li>
-      <img src="https://picsum.photos/id/1/400/200" />
-    </li>
-    <li>
-      <img src="https://picsum.photos/id/2/400/200" />
-    </li>
-    <li>
-      <img src="https://picsum.photos/id/3/400/200" />
-    </li>
-    <li>
-      <img src="https://picsum.photos/id/4/400/200" />
-    </li>
-    <li>
-      <img src="https://picsum.photos/id/5/400/200" />
-    </li>
-  </ul>
-</body>
-</html>
-`,
-    },
-    "/style.css": {
-      code: `body {
-  background-color: #005dc70d;
-}
-
-ul {
-  width: 400px;
-  margin: 0 auto;
-  list-style: none;
-  padding: 0;
-}`
-    },
-  }}
-  options={{
-    showLineNumbers: true,
-    initMode: "lazy",
-    autoReload: false,
-    activeFile: "/index.html",
-  }}
-  customSetup={{
-    entry: "index.html",
-  }}
->
-  <SandpackLayout>
-    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "1100px"}}/>
-  </SandpackLayout>
-</SandpackProvider>
-
-<br/>
-
-## 이미지 위치 맞추기
-
-아래와 같이 코드를 추가해보세요.
-
-<br/>
-
-<SandpackProvider
-  theme={nightOwl}
-  files={{
-    "/style.css": {
-      code: `body {
-  background-color: #005dc70d;
-}
-
+```css filename="styles.css" {7, 10-12}
 ul {
   height: 200px;
   width: 400px;
@@ -913,75 +728,17 @@ ul {
 
 li {
   position: absolute;
-}`,
-      active: true
-    },
-  }}
-  options={{
-    initMode: "lazy",
-    showOpenInCodeSandbox: false,
-    showRefreshButton: false,
-    readOnly: true,
-  }}>
-  <SandpackLayout>
-    <SandpackCodeViewer
-      decorators={[
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "1" },
-          line: 11,
-          startColumn: 1,
-          endColumn: 21,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "3" },
-          line: 15,
-          startColumn: 1,
-          endColumn: 21,
-        },
-      ]}
-      showTabs
-      showLineNumbers
-      style={{ height: "400px"}}
-    />
-  </SandpackLayout>
-</SandpackProvider>
+}
+```
 
 <br/>
-
-### 코드 설명
-
-CSS에서 가장 중요한 개념 중 하나가 `position` 속성입니다. 전반적인 구조를 설정하는데 크게 유용합니다.
-
-<br/>
-
-#### 1. `ul`에 `relative` 포지션 설정하기
-
-`position` 속성이 `relative` 값으로 설정된 요소는 아주 중요한 역할을 하게 됩니다. 자식 요소 중에 `position` 속성이 `absolute` 값으로 설정된 요소가 있다면, 해당 요소의 위치를 `top`, `left`, `right`, `bottom`으로 조정하는 기준 위치가 됩니다.
-
-현재 우리가 `ul`에 `relative` 포지션을 설정한 이유는, 자식 요소인 `li`의 위치를 `absolute`로 설정하고 `li` 요소의 위치를 설정하는 기준으로 사용하기 위함입니다.
-
-<br/>
-
-#### 2. `li`에 `absolute` 포지션 설정하기
-
-위에 설명한 내용과 동일하게 `li`의 위치를 `ul` 기준으로 설정하기 위해 `absolute`를 설정해주었으며, 또한 요소가 문서의 흐름대로 수직으로 나열되는 기본 성질을 해제하기 위해서 사용했습니다.
-
-어떤 요소가 `absolute` 값의 `position`을 갖게 될 경우, 부모 요소 중 `relative` 값을 가진 요소를 기준으로 위치하게 됩니다. 부모 요소 중 `relative` 값을 가진 요소가 없을 경우, 문서의 최상위 요소를 기준으로 위치하게 됩니다. 즉, 기존의 위치나 문서에서 기본적으로 설정된 위치는 해제됩니다.
-
-> 추가적으로 `top`, `left`, `right`, `bottom` 속성을 활용하여 정확한 위치를 지정할 수 있습니다.
-
-<br/>
-
-### 화면 결과
+### 6-1. 화면 결과
 
 아래와 같은 화면을 확인하셨나요? 이제 점차 우리가 만들 결과물과 비슷해지는 것 같습니다.
 
 여러 개의 이미지가 동일한 곳에 위치했기 때문에, 하나의 이미지만 보여지게 됩니다. 하지만 이미지 뒤에 다른 이미지들이 겹쳐있는 상황입니다.
 
 <br/>
-
 <SandpackProvider
   template="vanilla"
   theme={nightOwl}
@@ -991,7 +748,7 @@ CSS에서 가장 중요한 개념 중 하나가 `position` 속성입니다. 전�
 <html lang="ko">
 <head>
   <title>🔰 바닐라코딩</title>
-  <link href="./style.css" rel="stylesheet" />
+  <link href="./styles.css" rel="stylesheet" />
 </head>
 <body>
   <ul>
@@ -1015,9 +772,9 @@ CSS에서 가장 중요한 개념 중 하나가 `position` 속성입니다. 전�
 </html>
 `,
     },
-    "/style.css": {
+    "/styles.css": {
       code: `body {
-  background-color: #005dc70d;
+  background-color: #eeeeee;
 }
 
 ul {
@@ -1050,30 +807,39 @@ li {
 </SandpackProvider>
 
 <br/>
+### 6-2. 코드 설명
 
-## 좌우 방향 아이콘 추가하기
+이전 단계에서 [Position 속성](../google-project-2/05-search-input.mdx#4-css-position)에 대해 살펴본 내용에 대해 기억하고 계신가요?
+
+<br/>
+#### A. `ul`에 `relative` 포지션 설정하기
+
+현재 우리가 `ul`에 `relative` 포지션을 설정한 이유는, 자식 요소인 `li`의 위치를 `absolute`로 설정하고 `li` 요소의 위치를 설정하는 기준으로 사용하기 위함입니다.
+
+<br/>
+#### B. `li`에 `absolute` 포지션 설정하기
+
+현재 `ul` 요소가 `relative` 포지션을 갖고 있는 상황이므로, `absolute` 포지션이 설정된 `li` 요소는 `ul` 요소의 위치를 기준으로 배치됩니다.
+
+<br/>
+## 7. 좌우 방향 아이콘 추가하기
 
 이제 좌우 방향 아이콘을 추가해보도록 하겠습니다.
 
-좌우 방향 아이콘은 이미지를 기준으로 수직선 상에서는 중앙에 위치해야 하며, 수평선 상에서는 적정한 거리를 두고 좌우에 배치해보도록 하겠습니다.
+좌우 방향 아이콘은 이미지를 기준으로 세로선 상에서는 중앙에 위치해야 하며, 가로선 상에서는 적정한 거리를 두고 좌우에 배치되어야 합니다.
 
 우선 아래와 같이 HTML을 수정해주도록 해볼까요?
 
-<br/>
-
-<SandpackProvider
-  theme={nightOwl}
-  files={{
-    "/index.html": {
-      code: `<!DOCTYPE html>
+```html filename="index.html" showLineNumbers {8-9, 27-28}
+<!DOCTYPE html>
 <html lang="ko">
   <head>
     <title>🔰 바닐라코딩</title>
-    <link href="./style.css" rel="stylesheet" />
+    <link href="./styles.css" rel="stylesheet" />
   </head>
   <body>
- <div class="carousel">
-   <div class="left arrow">◀︎</div>
+    <div class="carousel">
+      <div class="left arrow">◀︎</div>
       <ul>
         <li>
           <img src="https://picsum.photos/id/1/400/200" />
@@ -1091,70 +857,92 @@ li {
           <img src="https://picsum.photos/id/5/400/200" />
         </li>
       </ul>
-   <div class="right arrow">▶︎</div>
- </div>
+      <div class="right arrow">▶︎</div>
+    </div>
+  </body>
+</html>
+```
+
+<br/>
+### 7-1. 화면 결과
+
+<SandpackProvider
+  template="vanilla"
+  theme={nightOwl}
+  files={{
+    "/index.html": {
+      code: `<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>🔰 바닐라코딩</title>
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="carousel">
+      <div class="left arrow">◀︎</div>
+      <ul>
+        <li>
+          <img src="https://picsum.photos/id/1/400/200" />
+        </li>
+        <li>
+          <img src="https://picsum.photos/id/2/400/200" />
+        </li>
+        <li>
+          <img src="https://picsum.photos/id/3/400/200" />
+        </li>
+        <li>
+          <img src="https://picsum.photos/id/4/400/200" />
+        </li>
+        <li>
+          <img src="https://picsum.photos/id/5/400/200" />
+        </li>
+      </ul>
+      <div class="right arrow">▶︎</div>
+    </div>
   </body>
 </html>`,
-      active: true
+    },
+    "/styles.css": {
+      code: `body {
+  background-color: #eeeeee;
+}
+
+ul {
+  height: 200px;
+  width: 400px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+li {
+  position: absolute;
+}`
     },
   }}
   options={{
+    showLineNumbers: true,
     initMode: "lazy",
-    showOpenInCodeSandbox: false,
-    showRefreshButton: false,
-    readOnly: true,
+    autoReload: false,
+    activeFile: "/index.html",
   }}
   customSetup={{
     entry: "index.html",
-  }}>
+  }}
+>
   <SandpackLayout>
-    <SandpackCodeViewer
-      decorators={[
-        {
-          className: "widget red",
-          elementAttributes: { "data-id": "1" },
-          line: 8,
-          startColumn: 1,
-          endColumn: 23,
-        },
-        {
-          className: "widget red",
-          elementAttributes: { "data-id": "1" },
-          line: 28,
-          startColumn: 1,
-          endColumn: 7,
-        },
-        {
-          className: "widget yellow",
-          elementAttributes: { "data-id": "2" },
-          line: 9,
-          startColumn: 3,
-          endColumn: 35,
-        },
-        {
-          className: "widget yellow",
-          elementAttributes: { "data-id": "2" },
-          line: 27,
-          startColumn: 3,
-          endColumn: 36,
-        },
-      ]}
-      showTabs
-      showLineNumbers
-      style={{ height: "700px"}}
-    />
+    <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "240px"}}/>
   </SandpackLayout>
 </SandpackProvider>
 
 <br/>
-
-### 코드 설명
+### 7-2. 코드 설명
 
 작성한 코드의 의도에 대해 잠시 살펴볼까요?
 
 <br/>
-
-#### 1. `carousel` 클래스가 주어진 `div`
+#### A. `carousel` 클래스가 주어진 `div`
 
 우리는 아래와 같이 `carousel`이라는 외부 컨테이너 요소를 만들어 주고, 그 안에 좌우 방향 아이콘들과 이미지 목록을 모두 포함하게 하였습니다. 좌우 방향 아이콘들을 목록 안에 넣어 구현할 수도 있지만, 목록 내부에 리스트 요소가 아닌 요소가 추가되는 것은 시맨틱하지 않기 때문에 외부 컨테이너를 만들어 주었습니다.
 
@@ -1179,7 +967,7 @@ li {
 <html lang="ko">
 <head>
   <title>🔰 바닐라코딩</title>
-  <link href="./style.css" rel="stylesheet" />
+  <link href="./styles.css" rel="stylesheet" />
 </head>
 <body>
   <div class="carousel-tag">carousel 요소</div>
@@ -1209,7 +997,7 @@ li {
 </html>
 `,
     },
-    "/style.css": {
+    "/styles.css": {
       code: `body {
   background-color: #005dc70d;
 }
@@ -1285,7 +1073,8 @@ li {
   </SandpackLayout>
 </SandpackProvider>
 
-#### 2. 좌우 방향 아이콘
+<br/>
+#### B. 좌우 방향 아이콘
 
 방금 추가한 코드에서 좌우 방향 아이콘은 각각 `left arrow`, `right arrow` 클래스가 주어져 있었습니다.
 
@@ -1294,160 +1083,47 @@ li {
 
 두 가지 요소는 `arrow`라는 공통의 클래스가 주어져 있고, 좌/우에 따라 각각 `left`, `right` 클래스가 별도로 주어져 있습니다.
 
-그 이유는 다음 단계에서 CSS를 작성하며 알아보도록 하겠습니다.
+좌,우 방향 아이콘은 공통점도 있고 차이점도 있습니다. 공통점은 `.arrow` 클래스를 활용하여 CSS 처리해줄 예정이며, 차이점은 각각의 `left`, `right` 클래스를 활용할 예정입니다.
+
+자세한 내용은 다음 단계에서 CSS를 작성하며 알아보도록 하겠습니다.
 
 <br/>
-
-## 좌우 방향 아이콘 위치 맞추기
+## 8. 방향 아이콘 위치 맞추기
 
 방금 추가했던 HTML 코드에 대한 스타일을 정해주고 화면을 조금 더 예쁘게 만들어 보겠습니다.
 
-<br/>
+아래와 같이 CSS를 추가해보세요.
 
-<SandpackProvider
-  theme={nightOwl}
-  files={{
-    "/style.css": {
-      code: `body {
-  background-color: #005dc70d;
-}
-
- .carousel {
-   position: relative;
-   display: flex;
-   align-items: center;
- }
-
- .arrow {
-   position: absolute;
- }
-
- .arrow.left {
-   left: 10px;
- }
-
- .arrow.right {
-   right: 10px;
- }
-
- .arrow:hover {
-   cursor: pointer;
- }
-
-ul {
-  height: 200px;
-  width: 400px;
-  margin: 0 auto;
-  list-style: none;
-  padding: 0;
+```css
+.carousel {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
-li {
+.arrow {
   position: absolute;
-}`,
-      active: true
-    },
-  }}
-  options={{
-    initMode: "lazy",
-    showOpenInCodeSandbox: false,
-    showRefreshButton: false,
-    readOnly: true,
-  }}
-  customSetup={{
-    entry: "style.css",
-  }}>
-  <SandpackLayout>
-    <SandpackCodeViewer
-      decorators={[
-        {
-          className: "widget red",
-          elementAttributes: { "data-id": "1" },
-          line: 5,
-          startColumn: 1,
-          endColumn: 80,
-        },
-        {
-          className: "widget yellow",
-          elementAttributes: { "data-id": "2" },
-          line: 11,
-          startColumn: 1,
-          endColumn: 35,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "3" },
-          line: 15,
-          startColumn: 1,
-          endColumn: 32,
-        },
-        {
-          className: "widget green",
-          elementAttributes: { "data-id": "4" },
-          line: 19,
-          startColumn: 1,
-          endColumn: 34,
-        },
-        {
-          className: "widget blue",
-          elementAttributes: { "data-id": "5" },
-          line: 23,
-          startColumn: 1,
-          endColumn: 40,
-        },
-      ]}
-      showTabs
-      showLineNumbers
-      style={{ height: "840px"}}
-    />
-  </SandpackLayout>
-</SandpackProvider>
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+```
 
 <br/>
+### 8-1. 화면 결과
 
-### 코드 설명
-
-#### 1. 기준 컨테이너가 되는 `.carousel` 요소
-
-기억하시겠지만, CSS에서는 [CSS 선택자](https://developer.mozilla.org/ko/docs/Web/CSS/CSS_selectors) 문법을 활용하여 우리가 원하는 요소를 지정할 수 있습니다.
-
-우리가 선택하고 싶은 요소는 `carousel`이라는 클래스가 주어져 있기 때문에, `.carousel`이라는 선택자 문법으로 선언해주었습니다.
-
-또한, 하위 요소들의 위치를 지정할때 기준점으로 만들기 위해 `relative` 포지션 값을 설정해주었습니다.
-
-마지막으로, `align-items`를 `center`로 설정한 것은 자식 요소들을 수직선 상에서 가운데 정렬을 하기 위함인데, 이 속성은 `display`가 `flex`일 경우에만 사용할 수 있기에 두 가지를 모두 추가했습니다.
+현재 아래와 같은 화면을 확인할 수 있습니다.
 
 <br/>
-
-#### 2. 방향 아이콘의 공통 스타일
-
-좌우 방향 아이콘은 공통으로 가져야 할 스타일이 있습니다. 그렇기 때문에 `.arrow`라는 클래스를 만들어 두 가지 방향 아이콘 모두에게 추가하였고, 포지션 속성을 설정해주었습니다.
-
-<br/>
-
-#### 3 & 4. 방향 아이콘 개별 스타일
-
-좌우 방향 아이콘은 개별적으로 가져야 할 스타일도 있습니다. 그렇기에 `.left`, `.right`라는 클래스를 만들어 각각에게 개별적으로 지정해주고, 좌우 위치 값을 설정해주었습니다.
-
-> 위치값을 변경하며, 어떤 식으로 위치가 조정되는지 확인해보세요.
-
-<br/>
-
-#### 5. 방향 아이콘에 마우스를 올렸을 때의 스타일
-
-부수적인 부분이지만, 방향 아이콘에 사용자가 마우스를 올렸을 때 커서의 모양을 설정해준다면 조금 더 사용자 친화적인 UI/UX가 될 수 있을것 같기에 추가한 코드입니다.
-
-`:hover`라는 부분은 [의사 클래스](https://developer.mozilla.org/ko/docs/Web/CSS/Pseudo-classes)라고 하는 문법이며, 특정 요소가 적용되는 상황에 대한 지정을 할 수 있습니다.
-
-<br/>
-
-### 화면 결과
-
-최종적으로 현재 아래와 같은 화면을 확인할 수 있습니다.
-
-<br/>
-
 <SandpackProvider
   template="vanilla"
   theme={nightOwl}
@@ -1457,7 +1133,7 @@ li {
 <html lang="ko">
 <head>
   <title>🔰 바닐라코딩</title>
-  <link href="./style.css" rel="stylesheet" />
+  <link href="./styles.css" rel="stylesheet" />
 </head>
 <body>
   <div class="carousel">
@@ -1485,7 +1161,7 @@ li {
 </html>
 `,
     },
-    "/style.css": {
+    "/styles.css": {
       code: `body {
   background-color: #005dc70d;
 }
@@ -1542,7 +1218,60 @@ li {
 </SandpackProvider>
 
 <br/>
+### 8-2. 코드 설명
 
-## 다음 단계
+#### A. 기준 컨테이너가 되는 `.carousel` 요소
 
-자, 이제 정적인 마크업(HTML, CSS)를 완성했습니다. 이제 자바스크립트를 활용하여 사용자의 인터렉션에 따라 동적으로 움직일 수 있도록 작업해보겠습니다. 👏🏻
+기억하시겠지만, CSS에서는 [CSS 선택자](../google-project-2/02-css-selectors.mdx) 문법을 활용하여 우리가 원하는 요소를 지정할 수 있습니다.
+
+우리가 선택하고 싶은 요소는 `carousel`이라는 클래스가 주어져 있기 때문에, `.carousel`이라는 선택자 문법으로 선언해주었습니다.
+
+또한, 하위 요소들의 위치를 지정할때 기준점으로 만들기 위해 `relative` 포지션 값을 설정해주었습니다.
+
+마지막으로, `align-items`를 `center`로 설정한 것은 자식 요소들을 수직선 상에서 가운데 정렬을 하기 위함인데, 이 속성은 `display`가 `flex`일 경우에만 사용할 수 있기에 두 가지를 모두 추가했습니다.
+
+<br/>
+
+#### B. 방향 아이콘의 공통 스타일
+
+좌우 방향 아이콘은 공통으로 가져야 할 스타일이 있습니다. 그렇기 때문에 `.arrow`라는 클래스를 만들어 두 가지 방향 아이콘 모두에게 추가하였고, 포지션 속성을 설정해주었습니다.
+
+<br/>
+
+#### C. 방향 아이콘 개별 스타일
+
+좌우 방향 아이콘은 개별적으로 가져야 할 스타일도 있습니다. 그렇기에 `.left`, `.right`라는 클래스를 만들어 각각에게 개별적으로 지정해주고, 좌우 위치 값을 설정해주었습니다.
+
+> 위치값을 변경하며, 어떤 식으로 위치가 조정되는지 확인해보세요.
+
+<br/>
+
+#### D. 방향 아이콘에 마우스를 올렸을 때의 스타일
+
+부수적인 부분이지만, 방향 아이콘에 사용자가 마우스를 올렸을 때 커서의 모양을 설정해준다면 조금 더 사용자 친화적인 UI/UX가 될 수 있을것 같기에 추가한 코드입니다.
+
+`:hover`라는 부분은 [의사 클래스](https://developer.mozilla.org/ko/docs/Web/CSS/Pseudo-classes)라고 하는 문법이며, 특정 요소가 적용되는 상황에 대한 지정을 할 수 있습니다.
+
+<br/>
+
+## 9. 다음 단계
+
+자, 이제 정적인 페이지(HTML, CSS)를 완성했습니다. 이제 자바스크립트를 활용하여 사용자의 인터렉션에 따라 동적으로 움직일 수 있도록 작업해보겠습니다. 👏🏻
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

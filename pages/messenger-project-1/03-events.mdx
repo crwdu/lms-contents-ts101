@@ -1,0 +1,252 @@
+import Giscus from "@giscus/react";
+import { FileTree, Tabs, Callout } from "nextra/components";
+import {
+  Sandpack,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeViewer,
+  SandpackPreview,
+  UnstyledOpenInCodeSandboxButton,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# 메시지 입력 이벤트 다루기
+
+이번 단계에서는 사용자가 메시지 입력을 했을때 어떤 문제가 있는지 파악하고 잘못된 부분을 수정해보도록 하겠습니다.
+
+<br/>
+## 1. 기능 구현
+
+항상 가장 먼저 해야 할 일은 현재 어떤 상황인지 분석하고, 우리가 원하는 것이 무엇인지 정리하는 것입니다. 이런 과정을 통해 어떤 부분이 잘못되었는지 선별하고 집중할 수 있습니다.
+
+<br/>
+### 1-1. 현재 상태의 동작
+
+현재 우리 어플리케이션에서는 사용자가 메시지 입력했을때, 입력한 메시지가 처리되지 않고 있습니다.
+
+조금 더 구체적으로 분석해보자면, 사용자가 메시지를 입력하고 키보드의 Enter 키를 입력하면 화면이 깜빡이면서 작성한 메시지가 사라집니다.
+
+또한 사용자가 메시지를 입력하고 메시지 전송 버튼을 클릭해도 위와 동일한 현상이 발생합니다.
+
+<br/>
+### 1-2. 우리가 원하는 동작
+
+우리는 사용자가 메시지를 입력하고 키보드의 Enter 키를 입력하거나 메시지 전송 버튼을 클릭하면, 이를 감지하여 화면에 사용자가 입력한 메시지가 표기되기를 원합니다.
+
+<br/>
+## 2. 해결 방법 구상하기
+
+해결 방법은 여러 가지가 있을 수 있습니다.
+
+사람마다 다른 방법을 생각할 수도 있고, 같은 방법이라도 상황에 따라 최선일 수도 있고 최선이 아닐 수도 있습니다.
+
+"안녕하세요. 🙇🏻" 라고 밝고 명랑하게 인사하는 것이 회사에서 팀원들을 대상으로 했다면 자연스러울 수 있지만, 어느 날 갑자기 집에서 부모님께 한다면 우리 아이가 갑자기 왜 이러나 하고 걱정하실 수도 있습니다.
+
+프로그래밍 또한 마찬가지입니다. 같은 로직이라도 상황의 맥락을 파악해야 하고, 그 안에서 최선이 무엇인지 선택해야 합니다.
+
+사용자의 메시지 입력을 감지하려면, 우리는 우선 [이벤트](../carousel-project-1/10-javascript-8.mdx)를 활용해야 한다는 것을 생각할 수 있습니다.
+
+<br/>
+## 3. Enter 키를 입력할 경우
+
+`/src/js/app.js`의 32번 줄에 아래와 같이 수정해보세요.
+
+<br/>
+<Tabs items={["수정 전 🟡", "수정 후 🟢"]}>
+  <Tabs.Tab>
+```js filename="app.js" showLineNumbers
+// 메시지 입력 TODO #1
+/* ----- 이벤트 추가 code #1 ----- */
+/* ----- 이벤트 추가 code #2 ----- */
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```js filename="app.js" showLineNumbers {3}
+// 메시지 입력 TODO #1
+/* ----- 이벤트 추가 code #1 ----- */
+messageInputForm.addEventListener("submit", handleMessageSubmit);
+/* ----- 이벤트 추가 code #2 ----- */
+```
+  </Tabs.Tab>
+</Tabs>
+
+<br/>
+### 3-1. 화면 결과
+
+메시지 전송 화면에서 메시지를 입력한 후, 키보드의 Enter 키를 입력해보세요. 기존과는 다르게 화면에 메시지가 출력되기는 하지만, 사용자 닉네임과 메시지 내용이 다소 이상하게 나타납니다.
+
+아직 해결해야 할 문제가 많지만, 이전보다는 진척이 있었습니다.
+
+![messenger screen](/images/posts/messenger_3.png)
+
+<br/>
+### 3-2. 코드 설명
+
+우리가 방금 작성한 코드는 아래와 같습니다.
+
+```js
+messageInputForm.addEventListener("submit", handleMessageSubmit);
+```
+
+부분적으로 하나씩 살펴볼까요?
+
+<br/>
+#### `messageInputForm`
+
+```js /messageInputForm/
+messageInputForm.addEventListener("submit", handleMessageSubmit);
+```
+
+`messageInputForm`이라는 것은 `/src/js/app.js`의 13번 줄에서 보시면, `.message-input` CSS 선택자를 활용해 HTML에서 해당 클래스를 가진 요소를 불러오고 있습니다.
+
+```js
+const messageInputForm = document.querySelector(".message-input");
+```
+
+또한, `index.html` 파일 24번 줄에서 `.message-input`이라는 클래스를 가진 요소를 보시면 메시지 전송 입력창을 포함하고 있는 `form` 요소임을 확인할 수 있습니다.
+
+```html
+<form class="message-input">
+  <input placeholder="메시지를 입력해주세요."></input>
+  <button>
+    <img src="./src/assets/send.png" />
+  </button>
+</form>
+```
+
+<br/>
+#### `addEventListener`
+
+```js /addEventListener/
+messageInputForm.addEventListener("submit", handleMessageSubmit);
+```
+
+앞서 캐로우셀 프로젝트에서는 특정 요소의 이벤트를 감지할때, [`onclick`](../carousel-project-1/07-javascript-5.mdx)을 사용했던 것을 기억하시나요?
+
+`addEventListener`는 그와 동일한 기능을 제공하고 유사하지만 특징이 조금은 다른 방법입니다.
+
+<Callout emoji="📌">
+**onclick vs addEventListener**
+
+이전 단계에서는 간단하게 보여드리기 위해 `onclick` 형식을 사용했지만, 일반적으로는 `addEventListener`를 더욱 많이 사용합니다.
+</Callout>
+
+여러분이 `document.querySelector`를 사용해 불러 온 요소들에게는 모두 위와 같이 `addEventListener`를 사용해 이벤트를 감지할 수 있습니다.
+
+`addEventListener`는
+
+- 첫 번째 파라미터로 **이벤트 이름**을 문자열로 넣어주어야 하고, 예) `"click"`, `"submit"` 등
+- 두 번째 파라미터로 해당 이벤트가 감지되었을때 실행할 **함수**를 넣어주어야 합니다.
+
+예를 들어, 사용자가 클릭했을때 콘솔에 메시지를 출력하고 싶다면 아래와 같이 작성할 수 있습니다.
+
+```js
+messageInputForm.addEventListener("click", logMessage);
+
+function logMessage () {
+  console.log("클릭했습니다!");
+}
+```
+
+다만 우리는 현재 사용자가 메시지를 입력하고 Enter 키를 입력했을때 메시지 전송이 동작하도록 만들고 싶습니다.
+
+어떻게 할 수 있을까요?
+
+HTML에 작성된 `form` 요소는 기본적으로 사용자가 `form` 요소 내부의 **입력창에 값을 입력하고 Enter 키를 입력**했을때, `"submit"`이라는 이벤트가 발생합니다.
+
+그렇기에 우리는 `"submit"` 이벤트를 감지하고, 이벤트가 발생했을때 `handleMessageSubmit`이라는 함수가 실행되도록 넣어준 것입니다.
+
+`handleMessageSubmit`은 `/src/js/app.js` 54번 줄에 보시면 함수에 붙여진 이름이라는 것을 확인할 수 있습니다.
+
+<br/>
+## 4. 메시지 전송 아이콘을 클릭할 경우
+
+`/src/js/app.js`의 **TODO #1 - code #2** 부분에 아래와 같이 수정해보세요.
+
+<br/>
+<Tabs items={["수정 전 🟡", "수정 후 🟢"]}>
+  <Tabs.Tab>
+```js filename="app.js" showLineNumbers
+// 메시지 입력 TODO #1
+/* ----- 이벤트 추가 code #1 ----- */
+messageInputForm.addEventListener("submit", handleMessageSubmit);
+/* ----- 이벤트 추가 code #2 ----- */
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```js filename="app.js" showLineNumbers {5}
+// 메시지 입력 TODO #1
+/* ----- 이벤트 추가 code #1 ----- */
+messageInputForm.addEventListener("submit", handleMessageSubmit);
+/* ----- 이벤트 추가 code #2 ----- */
+messageInputButton.addEventListener("click", handleMessageSubmit);
+```
+  </Tabs.Tab>
+</Tabs>
+
+<br/>
+### 4-1. 화면 결과
+
+메시지 전송 화면에서 메시지를 입력한 후, 메시지 전송 아이콘을 클릭해보세요. 역시 화면에서 내가 작성한 메시지가 나타나기는 하지만 내용은 다소 이상하게 표기되는 것을 확인할 수 있습니다.
+
+![messenger screen](/images/posts/messenger_3.png)
+
+<br/>
+### 4-2. 코드 설명
+
+우리가 방금 작성한 코드를 한번 살펴볼까요?
+
+```js
+messageInputButton.addEventListener("click", handleMessageSubmit);
+```
+
+<br/>
+#### `messageInputButton`
+
+```js /messageInputButton/
+messageInputButton.addEventListener("click", handleMessageSubmit);
+```
+
+`messageInputButton`이라는 것은 `/src/js/app.js`의 14번 줄에서 보시면, `.message-input` 내부에 있는 `button` 요소를 불러오고 있습니다.
+
+```js
+const messageInputButton = document.querySelector(".message-input button");
+```
+
+> CSS 선택자 사이에 공백이 있는 경우, 좌측에 명시된 요소의 자식 요소 중 우측에 명시된 조건과 부합하는 요소를 불러옵니다. 현재의 경우, `.message-input` 내부에 있는 자식 요소 중에 `button` 요소를 불러옵니다.
+
+또한, `index.html` 파일 26번 줄에서 해당 버튼 요소를 확인할 수 있습니다.
+
+```html
+<form class="message-input">
+  <input placeholder="메시지를 입력해주세요."></input>
+  <button>
+    <img src="./src/assets/send.png" />
+  </button>
+</form>
+```
+
+그렇기에 우리가 현재 작성한 로직은 메시지 전송 버튼을 클릭했을때, `handleMessageSubmit` 함수가 실행되도록 하는 것입니다.
+
+---
+
+이제 다음 단계에서는 `handleMessageSubmit` 함수의 내용을 점검하고, 올바르게 메시지가 표시되도록 진행해보겠습니다. 💁🏻‍♂️
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

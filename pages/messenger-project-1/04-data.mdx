@@ -1,0 +1,396 @@
+import Giscus from "@giscus/react";
+import { FileTree, Tabs, Callout } from "nextra/components";
+import {
+  Sandpack,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeViewer,
+  SandpackPreview,
+  UnstyledOpenInCodeSandboxButton,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# 객체를 활용해 메시지 처리하기
+
+현재 사용자가 메시지 입력 후, Enter 키를 입력하거나 전송 아이콘을 클릭하면 `handleMessageSubmit` 함수가 실행되도록 연결해놓았습니다.
+
+그렇지만, 화면에 나타나는 내용이 다소 이상합니다. 정상적으로 메시지가 표기되도록 작업을 이어나가 보도록 하겠습니다.
+
+<br/>
+## 1. 기능 구현
+
+현재 정확히 어떤 상황인지 자세히 파악해보도록 하겠습니다.
+
+<br/>
+### 1-1. 현재 상태의 동작
+
+여전히 우리 어플리케이션에서는 사용자가 메시지 입력했을때, 입력한 메시지가 화면에 정상적으로 나타나지 않고 있습니다.
+
+하지만 이전에 우리가 설정한 이벤트가 정상적으로 동작한다면, 적어도 `handleMessageSubmit` 함수는 실행되어야 합니다.
+
+사용자가 메시지를 전송했을때, `handleMessageSubmit` 함수는 잘 실행되고 있는 것인지부터 우선적으로 확인해봐야겠습니다.
+
+`/src/js/app.js` 파일에서 `handleMessageSubmit` 함수를 찾아 아래와 같이 콘솔 출력문을 추가해보세요.
+
+```js filename="app.js" {2}
+async function handleMessageSubmit(event) {
+  console.log("실행");
+
+  event.preventDefault();
+
+  if (messageInputText.value.trim() === "") {
+    alert("메시지를 입력해주세요.");
+    return;
+  }
+
+  // 메시지 입력 TODO #2
+  const message = {
+    id: Math.floor(Math.random() * 100000000),
+    userId: currentUser.userId,
+    createdAt: new Date().toISOString(),
+    colorCode: currentUser.colorCode,
+    /* ----- 객체 code #3 ----- */
+    /* ----- 객체 code #4 ----- */
+  };
+
+  await saveChat(message);
+
+  messageInputText.value = "";
+}
+```
+
+그리고 다시 한번 화면에서 메시지 전송을 시도해보시고, **Enter 키를 입력한 시점**에 콘솔창에 `"실행"`이라는 문자가 나타나는지 확인해보세요.
+
+![messenger](/images/posts/messenger_4.png)
+
+우선 함수의 실행은 정상적으로 잘 되고 있는 것을 확인했습니다.
+
+그렇다면, 함수의 내용을 점검해봐야겠습니다.
+
+<br/>
+### 1-2. 코드 수정
+
+TODO #2 부분을 보면, 무언가 복잡한 내용의 코드가 있습니다. 해당 부분을 아래와 같이 수정해보세요.
+
+<br/>
+<Tabs items={["수정 전 🟡", "수정 후 🟢"]}>
+  <Tabs.Tab>
+```js filename="app.js" showLineNumbers
+// 메시지 입력 TODO #2
+const message = {
+  id: Math.floor(Math.random() * 100000000),
+  userId: currentUser.userId,
+  createdAt: new Date().toISOString(),
+  colorCode: currentUser.colorCode,
+  /* ----- 객체 code #3 ----- */
+  /* ----- 객체 code #4 ----- */
+};
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+```js filename="app.js" showLineNumbers {8, 10}
+// 메시지 입력 TODO #2
+const message = {
+  id: Math.floor(Math.random() * 100000000),
+  userId: currentUser.userId,
+  createdAt: new Date().toISOString(),
+  colorCode: currentUser.colorCode,
+  /* ----- 객체 code #3 ----- */
+  nickname: currentUser.nickname,
+  /* ----- 객체 code #4 ----- */
+  text: messageInputText.value,
+};
+```
+  </Tabs.Tab>
+</Tabs>
+
+<br/>
+### 1-3. 화면 결과
+
+화면에서 메시지를 입력하고 Enter 키를 입력할 경우, 아래와 같이 **정상적으로 닉네임과 메시지 내용이 표기**되는 것을 확인할 수 있습니다.
+
+![messenger](/images/posts/messenger_5.png)
+
+<br/>
+### 1-4. 코드 설명
+
+`message`라는 변수를 만들고, 무언가 대입/할당하고 있습니다.
+
+우리가 추가한 내용도 그렇고, 낯선 문법이네요.
+
+익숙치 않은 개념이니 잠시 관련 문법에 대해 살펴보고 진행하는 것이 좋을것 같습니다.
+
+<br/>
+## 2. 자바스크립트 객체
+
+예전에 살펴봤던 [배열](../carousel-project-1/13-javascript-11.mdx)이 순서에 맞게 저장할 수 있는 구조였던 반면, 객체라고 하는 것은 key와 value라고 하는 것의 쌍을 저장할 수 있는 구조입니다.
+
+key와 value는 무엇일까요?
+
+어떤 사람의 프로필을 작성한다고 생각해봅시다. 아래와 같이 작성할 수 있습니다.
+
+**사람 1 🥸**
+
+- 이름: Ken Huh
+- 나이: 40
+- 주소: 서울특별시 강남구 테헤란로 522
+
+위에서,
+
+key에 해당하는 것은 "이름", "나이", "주소".
+
+value에 해당하는 것은 "Ken Huh", 40, "서울특별시 강남구 테헤란로 522"
+
+입니다.
+
+<br/>
+### 2-1. 객체 만들기 기초
+
+자바스크립트에서 객체는 중괄호를 이용하여 만들고, 그 내부에 키(key)값과 그에 해당하는 값(value)를 콜론(`:`)으로 구분하여 추가할 수 있습니다.
+
+![objects-1](/images/posts/objects-1.png)
+
+위에서 살펴봤던 사람 1의 예시를 자바스크립트 객체로 표현해보자면 아래와 같이 할 수 있습니다.
+
+```javascript copy
+const person = {
+  name: "Ken Huh",
+  age: 40,
+  address: "서울특별시 강남구 테헤란로 522",
+};
+```
+
+한 쌍 이상의 key와 value를 추가할 경우에는 "쉼표"를 이용하여 그 뒤에 오는 key/value와 구분해주어야 합니다.
+
+<br/>
+### 2-2. 식별자 규칙
+
+객체에 관한 문법을 정확히 이해하려면 식별자 규칙에 대해 알아야 합니다. 식별자 규칙이란, 자바스크립트에서 변수 이름을 지을때 지켜야 하는 규칙입니다.
+
+자바스크립트에서 변수의 이름을 지을때는,
+
+- 알파벳, `_`, `$` 으로만 시작할 수 있습니다.
+- 두번째 글자를 포함한 그 이후 자리에는 숫자가 포함될 수 있습니다.
+- 대소문자를 구분하여 사용해야 합니다.
+
+위 규칙을 잘 메모해놓고, 변수를 만들때 실수하지 않도록 주의하세요.
+
+<br/>
+#### 문법적으로 올바른 식별자(변수명) 예시 ✅
+
+```javascript copy
+const hello = 1;
+const $hello = 1;
+const _hello = 1;
+const he_llo = 1;
+const he$llo = 1;
+const hel123o = 1;
+const hel_10 = 1;
+const HelLo = 1;
+```
+
+<br/>
+#### 문법적으로 올바르지 못한 식별자(변수명) 예시 ❌
+
+```javascript copy
+const 3hello = 1;
+const !hello = 1;
+const hel!o = 1;
+const he-llo = 1;
+const hel l% = 1;
+```
+
+<br/>
+### 2-3. 객체 만들기 응용
+
+조금 더 응용된 상황을 한번 살펴볼까요?
+
+<br/>
+#### 식별자 규칙에 어긋나는 이름으로 객체의 키값 설정하기
+
+객체를 만들때, 만약 객체의 키값을 문법적으로 식별자 규칙에서 벗어난 이름으로 사용하고 싶다면 아래와 같이 **키값에 따옴표를 활용**하여 설정할 수 있습니다.
+
+```javascript copy {5}
+const person = {
+  name: "Ken Huh",
+  age: 40,
+  address: "서울특별시 강남구 테헤란로 522",
+  "personal-color": "green",
+};
+```
+
+<br/>
+#### 동적으로 객체의 키값 설정하기
+
+혹은 더 나아가 다른 변수에 담긴 문자열 값을 키값으로 사용하고 싶거나, 다른 함수의 반환값을 키값으로 사용하고 싶은 경우에는 아래처럼 대괄호를 활용하여 설정할 수 있습니다.
+
+```javascript copy {6}
+const key = "address";
+
+const person = {
+  name: "Ken Huh",
+  age: 40,
+  [key]: "서울특별시 강남구 테헤란로 522",
+  "personal-color": "green",
+};
+
+console.log(person);
+```
+
+![objects-2](/images/posts/objects-2.png)
+
+```javascript copy {8}
+function getKey() {
+  return "address";
+}
+
+const person = {
+  name: "Ken Huh",
+  age: 40,
+  [getKey()]: "서울특별시 강남구 테헤란로 522",
+  "personal-color": "green",
+};
+
+console.log(person);
+```
+
+![objects-3](/images/posts/objects-3.png)
+
+<Callout emoji="📌">
+  함수실행문은 함수실행문이 위치한 곳이 함수실행문의 반환값으로 대체되는 것을 꼭 기억하세요.
+</Callout>
+
+<br/>
+### 2-4. 객체에 저장된 내용 가져오기
+
+객체에 저장된 정보는 아래와 같이 `객체이름.키값이름` 과 같은 방식으로 접근하여 가져올 수 있습니다.
+
+```javascript copy {8, 11}
+const person = {
+  name: "Ken Huh",
+  age: 40,
+  address: "서울특별시 강남구 테헤란로 522",
+  "personal-color": "green",
+};
+
+const myName = person.name;
+
+console.log(myName); // "Ken Huh"
+console.log(person.name); // "Ken Huh"
+```
+
+키값이 식별자 규칙에서 벗어난 경우, 혹은 동적으로 변경되는 key 값을 활용해야 하는 경우에는 아래와 같이 대괄호를 활용해 접근할 수 있습니다.
+
+```javascript copy {8, 11, 14}
+const person = {
+  name: "Ken Huh",
+  age: 40,
+  address: "서울특별시 강남구 테헤란로 522",
+  "personal-color": "green",
+};
+
+const color = person["personal-color"];
+
+console.log(color); // "green"
+console.log(person["personal-color"]); // "green"
+
+const key = "age";
+console.log(person[key]); // 40
+```
+
+<br/>
+### 2-5. 객체에 새로운 key/value 추가하기
+
+이미 만들어진 객체에 추가로 key/value를 더할 수도 있습니다.
+
+```javascript copy {9}
+const person = {
+  name: "Ken Huh",
+  age: 40,
+  address: "서울특별시 강남구 테헤란로 522",
+  "personal-color": "green",
+};
+
+// 새로운 key/value 추가
+person.brother = "wan";
+
+console.log(person.brother); // "wan"
+```
+
+새로운 key/value를 추가할때도 만약 키값이 식별자 규칙에 어긋난다면 대괄호 문법을 사용해야 합니다.
+
+```javascript copy {9}
+const person = {
+  name: "Ken Huh",
+  age: 40,
+  address: "서울특별시 강남구 테헤란로 522",
+  "personal-color": "green",
+};
+
+// 새로운 key/value 추가
+person["sister-in-law"] = "mariola";
+
+console.log(person["sister-in-law"]); // "mariola"
+```
+
+<br/>
+### 2-6. 객체 key/value 수정하기
+
+데이터를 수정하는 것은 추가하는 것과 동일합니다. 동일하기 때문에 특히 주의해야 합니다. 기존에 존재하는 키값을 사용한다면, 덮어씌워지는 현상이 발생할 수 있으니까요. 🤓
+
+```javascript copy {7}
+const person = {
+  name: "Ken Huh",
+  age: 40,
+};
+
+// 이미 존재하는 키값을 사용하기 때문에 "새로운 데이터 추가"가 아니라 "수정"하는 코드
+person.age = 45;
+
+console.log(person.age); // 45
+```
+
+<br/>
+### 2-7. 객체 key/value 삭제하기
+
+객체에서 key/value를 삭제할 때는, `delete` 라는 명령어를 이용하여 삭제할 수 있습니다.
+
+객체에서는 존재하지 않는 키값에 접근할 경우, 그에 대한 결과값으로는 `undefined` 가 반환됩니다. 즉, 추가하지 않은 키값이나 이미 삭제한 키값의 경우에는 모두 `undefined` 로 판별됩니다.
+
+```javascript copy {7}
+const person = {
+  name: "Ken Huh",
+  age: 13,
+};
+
+// "age" key/value 삭제
+delete person.age;
+
+console.log(person.age); // undefined (이미 삭제되었기에 더 이상 존재하지 않는 key/value)
+console.log(person.address); // undefined (존재하지 않는 key/value)
+```
+
+---
+
+객체는 자바스크립트를 처음 하는 분들이 가장 혼란스러워 하는 문법 중에 하나입니다. 반드시 다양한 실습과 실험을 해보시고 손으로 익혀보시길 권장드립니다!
+
+이제 다른 사람들의 메시지도 화면에 나타나도록 연결해보겠습니다. 💁🏻‍♂️
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

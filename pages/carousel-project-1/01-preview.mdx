@@ -1,3 +1,4 @@
+import Giscus from "@giscus/react";
 import {
   Sandpack,
   SandpackProvider,
@@ -8,17 +9,21 @@ import {
 } from "@codesandbox/sandpack-react";
 import { nightOwl } from "@codesandbox/sandpack-themes";
 
-# 프로젝트 미리보기
+<br/>
+# 이미지 슬라이더 (캐로우셀 UI) 만들기 🌠
 
-이번에는 HTML, CSS 그리고 조금의 자바스크립트까지 더하여 더욱 동적인 프로젝트 작업을 해보겠습니다.
+이번에는 HTML, CSS 그리고 자바스크립트까지 더하여 더욱 동적인 프로젝트 작업을 해보겠습니다.
 
-우리가 작업할 프로젝트는 여러 개의 이미지를 순차적으로 보여주는 캐로우셀 UI입니다. 인터넷에서 한번쯤 사용해본 경험이 있으시죠? 아래 화면에서 좌우측 화살표를 클릭해보세요. 이미지가 변경되는 것을 확인하셨나요?
+우리가 작업할 프로젝트는 여러 개의 이미지를 순차적으로 보여주는 이미지 슬라이더, 전문 용어로 캐로우셀 UI입니다. 인터넷에서 한번쯤 본 경험이 있으시죠?
+
+<br/>
+## 미리보기
+
+아래 화면에서 좌우측 화살표를 클릭해보세요. 이미지가 변경되는 것을 확인하셨나요?
 
 처음부터 차근차근 만들어 갈테니, 인내심을 갖고 잘 따라오시기 바랍니다. 🙇🏻‍♂️
 
 <br/>
-<br/>
-
 <SandpackProvider
   template="vanilla"
   theme={nightOwl}
@@ -83,13 +88,16 @@ body {
 
 .arrow {
   position: absolute;
-  top: 90px;
+  top: 80px;
+  padding: 10px;
   cursor: pointer;
   transition: all .3s linear;
   font-size: 20px;
+  border-radius: 4px;
 }
 
 .arrow:hover {
+  background-color: #eeeeee;
   color: #818589;
 }
 
@@ -177,3 +185,21 @@ rightArrow.addEventListener("click", function () {
     <SandpackPreview showOpenInCodeSandbox={false} showRefreshButton={false} style={{ height: "400px"}}/>
   </SandpackLayout>
 </SandpackProvider>
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>

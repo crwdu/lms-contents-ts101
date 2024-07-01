@@ -1,0 +1,122 @@
+import Giscus from "@giscus/react";
+import { FileTree, Tabs, Callout } from "nextra/components";
+import {
+  Sandpack,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeViewer,
+  SandpackPreview,
+  UnstyledOpenInCodeSandboxButton,
+} from "@codesandbox/sandpack-react";
+import { nightOwl } from "@codesandbox/sandpack-themes";
+
+<br/>
+# 인터넷에 배포하기
+
+이번에는 가장 재미있는 시간입니다. 우리가 만든 실시간 메신저를 실제 인터넷에 배포해보도록 하겠습니다.
+
+<br/>
+## 1. Github 가입 또는 로그인하기
+
+[Github](https://github.com/)에 접속하여 회원가입 또는 로그인을 진행해주세요.
+
+![Github](/images/posts/github.png)
+
+<br/>
+## 2. 새로운 저장소 만들기
+
+아래와 같이 **New** 버튼을 클릭하여 새로운 저장소를 만들겠습니다.
+
+> 버튼을 찾지 못하겠다면, [이 링크](https://github.com/new)로 접속하셔도 됩니다.
+
+![Github](/images/posts/github_1.png)
+
+<br/>
+## 3. 저장소 정보 입력하기
+
+저장소 이름을 입력해주세요. 저장소 이름은 반드시 다음과 같은 형식이어야 합니다.
+
+**`본인의깃헙사용자닉네임.github.io`**
+
+저의 Github 사용자 닉네임은 `ken123777`입니다. 그렇기에 저의 경우에는 `ken123777.github.io`를 입력합니다.
+
+> Owner 부분에 표시된 텍스트가 여러분 본인의 Github 사용자 이름입니다.
+
+다른 정보는 수정하지 않고, 초록색 **Create repository**를 선택하여 다음 단계로 진행합니다.
+
+![Github](/images/posts/github_2.png)
+
+<br/>
+## 4. 코드 업로드 옵션 선택하기
+
+전환되어 넘어온 페이지에서 **uploading an existing file**을 선택하여 클릭합니다.
+
+![Github](/images/posts/github_3.png)
+
+<br/>
+## 5. 코드 업로드 하기
+
+업로드 하는 페이지에서 우리가 작업한 파일을 업로드 합니다.
+
+<Callout emoji="📌">
+반드시 아래 이미지와 같이, Vaco-Messenger 프로젝트 폴더 내부에 있는 모든 파일을 드래그하여 옮겨주세요.
+</Callout>
+
+![Github](/images/posts/github_5.png)
+
+<br/>
+## 6. 업로드한 파일 확인하기
+
+우리가 선택한 파일이 모두 잘 선택되었는지 확인합니다.
+
+![Github](/images/posts/github_6.png)
+
+<br/>
+## 7. 업로드한 파일 커밋하기
+
+페이지 하단에 있는 <span style={{ display: "inline-block", borderRadius: "5px", padding: "0 10px", backgroundColor: "#1f883d", color: "#ffffff" }}>**Commit changes**</span> 버튼을 선택하여 진행합니다.
+
+![Github](/images/posts/github_7.png)
+
+<br/>
+## 8. 라이브 웹사이트 확인하기
+
+2-3분 정도의 시간이 지난 후, 인터넷에서 `본인깃헙사용자이름.github.io` 주소로 접속하여 내가 만든 웹사이트가 잘 동작하는지 확인합니다.
+
+> 저의 경우에는 인터넷 주소창에 `ken123777.github.io`라고 입력하여 접속합니다.
+
+![Github](/images/posts/github_8.png)
+
+<br/>
+## 9. 친구에게 공유하고 메시지 주고받기
+
+이제 여러분이 만든 실시간 메신저의 주소를 친구들과 공유하고 여러분의 결과를 자랑해보세요. 🤓
+
+<br/>
+## 10. 내가 작성하지 않은 코드 살펴보기
+
+물론 동작은 하지만, 여러분이 작성하지 않아 이해가 되지 않는 코드가 많을것 같습니다. 시간이 가능할때 한번씩 살펴보시고 궁금한 점은 댓글에 남겨주세요. 💁🏻‍♂️
+
+---
+
+여기까지 작업하며 여러 가지 기초적인 자바스크립트 문법을 알아봤습니다만, 아직 기초 문법에 대한 내용이 상세하게 이해되지 않는 부분도 많습니다.
+
+이제 잠시 자바스크립트 문법을 다시 한번 짚어보며 잘 이해했는지 확인해보는 시간을 갖도록 하겠습니다. 👨🏻‍💻
+
+<br/>
+<br/>
+<br/>
+<Giscus
+  repo="crwdu/lms-contents-js101"
+  repoId="R_kgDOL2ikqQ"
+  category="Q&A"
+  categoryId="DIC_kwDOL2ikqc4CgSAu"
+  mapping="pathname"
+  reactionsEnabled="1"
+  strict="1"
+  emitMetadata="0"
+  inputPosition="top"
+  theme="preferred_color_scheme"
+  lang="ko"
+  loading="lazy"
+/>
