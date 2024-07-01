@@ -3,12 +3,13 @@ import { Sandpack } from "@codesandbox/sandpack-react";
 import { nightOwl } from "@codesandbox/sandpack-themes";
 import { Callout } from "nextra/components";
 
-<br/>
+<br />
+
 # 🖥 Google 검색창 만들기
 
 이번에는 검색창을 만들어 보겠습니다. 생각보다 어렵지 않으니 긴장하지 마세요.
 
-<br/>
+<br />
 ## 1. 입력창 추가하기
 
 우선 아래와 같이 HTML 코드에 입력창을 추가하고, 경계선 굴곡을 조금 부드럽게 조정해보겠습니다.
@@ -25,9 +26,7 @@ import { Callout } from "nextra/components";
     <input type="text" />
   </div>
 
-  <div>
-    <a>Google Search</a> <a>I'm Feeling Lucky</a>
-  </div>
+  <div><a>Google Search</a> <a>I'm Feeling Lucky</a></div>
 
   <div>Google offered in: 한국어</div>
 
@@ -48,14 +47,14 @@ input {
 
 ![google input](/images/posts/html-intro/input_01.png)
 
-<br/>
+<br />
 ## 2. 입력창 중앙 배치하기
 
 입력창도 가운데로 정렬시켜야 합니다. 어떻게 해야 할까요?
 
 다행히도 `input` 태그는 기본 설정이 Inline Block의 성격을 띄도록 되어 있습니다. 즉, Inline 성격도 있고, Block 성격도 있다는 뜻이죠.
 
-그렇기에 [이전 단계](04-google-logo.mdx#3-1-가로선-상의-중앙에-배치하기)에서 했던 것처럼 상위 부모 요소에게 `text-align: center;`를 적용하면 가로선 상에서 중앙에 배치될 것 같습니다.
+그렇기에 [이전 단계](../google-project-1/09-google-logo.mdx#3-1-가로선-상의-중앙에-배치하기)에서 했던 것처럼 상위 부모 요소에게 `text-align: center;`를 적용하면 가로선 상에서 중앙에 배치될 것 같습니다.
 
 `input` 요소의 부모 요소에게 `.input-box` 라는 class 이름을 지정해주고, 아래와 같이 CSS를 추가해보세요.
 
@@ -71,7 +70,7 @@ input {
 
 > 입력창 상단에 약간의 여백이 있으면 좋을것 같아, `margin-top` 또한 적용해주면 좋을것 같습니다.
 
-<br/>
+<br />
 ## 3. 돋보기 아이콘 추가하기
 
 하지만 더욱 험난한 단계가 남아 있습니다. 입력창 내부에 돋보기 아이콘을 추가해야 합니다. 😤
@@ -82,7 +81,7 @@ input {
 
 이런 경우에 우리는 CSS의 Position 속성을 활용해볼 수 있습니다.
 
-<br/>
+<br />
 ## 4. CSS Position
 
 우리는 CSS를 이용하여 웹페이지 컨텐츠의 위치(Position)를 우리가 원하는 대로 조정할 수 있습니다. 컨텐츠의 위치를 조정하기 위해서는 다양한 방법들이 있는데, 그 중 가장 기본적인 방법이 바로 Position 속성을 활용하는 것입니다.
@@ -91,7 +90,7 @@ input {
 
 하지만 우리가 원한다면 다른 값으로 변경할 수 있고, 가장 흔하게 많이 사용되는 것이 바로 `position: relative;` 그리고 `position: absolute;`입니다.
 
-<br/>
+<br />
 ### 4-1. Relative Position
 
 `position: relative;`가 적용된 요소들의 경우, 별도의 추가적인 CSS 속성을 적용하지 않는 이상 별다른 특이점이 없습니다. 하지만, `top`, `right`, `bottom`, `left` 등의 값을 활용하여 **상하좌우의 위치를 세밀하게 조정**할 수 있습니다.
@@ -138,11 +137,11 @@ input {
 }
 
 .relative {
-  position: relative;
-  left: 50px;
-  background-color: yellow;
+position: relative;
+left: 50px;
+background-color: yellow;
 }`,
-    },
+},
 }}
 options={{
     showLineNumbers: true,
@@ -156,7 +155,7 @@ customSetup={{
   }}
 />
 
-<br/>
+<br />
 ### 4-2. Absolute Position
 
 `position: absolute;`가 적용된 요소들의 경우는 조금 다릅니다.
@@ -198,18 +197,18 @@ customSetup={{
 }
 
 .parent {
-  position: relative;
-  margin-top: 50px;
-  background-color: green;
+position: relative;
+margin-top: 50px;
+background-color: green;
 }
 
 .absolute {
-  position: absolute;
-  top: 50px;
-  left: 50px;
-  background-color: yellow;
+position: absolute;
+top: 50px;
+left: 50px;
+background-color: yellow;
 }`,
-    },
+},
 }}
 options={{
     showLineNumbers: true,
@@ -268,9 +267,9 @@ customSetup={{
   icons 라고 검색하시면 많은 웹사이트가 있으니 이용해보세요. 💁🏻‍♂️
 </Callout>
 
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 <Giscus
   repo="crwdu/lms-contents-js101"
   repoId="R_kgDOL2ikqQ"
