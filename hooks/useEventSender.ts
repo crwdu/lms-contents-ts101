@@ -11,7 +11,7 @@ const getUser = async () => {
     return user;
   }
 
-  const userResponse = await fetch(`/api/user`, {
+  const userResponse = await fetch(`/api/auth`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -19,12 +19,7 @@ const getUser = async () => {
   });
 
   if (!userResponse.ok) {
-    if (process.env.VERCEL_ENV === "development") {
-      return;
-    }
-
-    alert("로그인 여부를 확인해주세요");
-    location.href = "/";
+    return;
   }
 
   const { result: userResult } = await userResponse.json();
@@ -50,6 +45,10 @@ function useEventSender() {
     contentPath?: string,
   ) => {
     const user = await getUser();
+
+    if (!user) {
+      return;
+    }
 
     const courseId = `/${router.basePath ? router.basePath.split("/")[2] : ""}`;
     let finalContentPath = contentPath
