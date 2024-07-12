@@ -24,7 +24,7 @@ const getUser = async () => {
 
   const { result: userResult } = await userResponse.json();
 
-  user = userResult.data.user;
+  user = userResult.data.courses[0];
 
   return user;
 };
@@ -56,7 +56,7 @@ function useEventSender() {
       : router.pathname;
 
     const eventData = {
-      user_id: user.id,
+      user_id: user.user_id,
       timestamp: new Date().toISOString(),
       course_id: courseId,
       content_path: finalContentPath,
