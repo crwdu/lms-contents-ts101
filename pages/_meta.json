@@ -8,6 +8,15 @@
       "breadcrumb": false
     }
   },
+  "certificate": {
+    "title": "👑 완강 인증하기",
+    "theme": {
+      "typesetting": "article",
+      "sidebar": true,
+      "toc": true,
+      "breadcrumb": false
+    }
+  },
   "html": {
     "title": "1. HTML 기초",
     "theme": {
