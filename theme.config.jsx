@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-import logo from "./public/images/logo/logo_header.png";
+import logo from "./public/images/logo/logo_header.svg";
 import mediumIcon from "./public/icons/medium.png";
 import instagramIcon from "./public/icons/instagram.png";
 import facebookIcon from "./public/icons/facebook.png";
@@ -19,7 +19,7 @@ const privacyPolicyUrl = "https://www.vanillacoding.co/?mode=privacy";
 
 const config = {
   darkMode: false,
-  logo: <Image alt="vaco-logo" src={logo} width={140} height={35} />,
+  logo: <Image alt="vaco-logo" src={logo} width={140} height={20} />,
   logoLink: process.env.NEXT_PUBLIC_URI,
   editLink: {
     component: () => <></>,
@@ -45,7 +45,9 @@ const config = {
       return (
         <div className="flex w-full justify-between">
           <div>
-            <strong className="font-bold text-sm">㈜ 크라우드 에듀케이션</strong>
+            <strong className="font-bold text-sm">
+              ㈜ 크라우드 에듀케이션
+            </strong>
             <p className="leading-[25px] mt-6 text-sm">
               대표 허근행 | 개인정보책임자 허근행
               <br />
