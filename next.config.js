@@ -7,4 +7,16 @@ const withNextra = require("nextra")({
 
 module.exports = withNextra({
   basePath: `/courses/${COURSE_SLUG}`,
+  webpack(config, options) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: "@svgr/webpack",
+        },
+      ],
+    });
+
+    return config;
+  },
 });

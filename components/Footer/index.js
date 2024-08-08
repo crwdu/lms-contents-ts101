@@ -1,97 +1,114 @@
-import Image from "next/image";
+import LogoIcon from "/public/images/logo/logo_footer.svg";
+import FacebookIcon from "/public/icons/footer/facebook.svg";
+import InstagramIcon from "/public/icons/footer/instagram.svg";
+import MediumIcon from "/public/icons/footer/medium.svg";
+import YoutubeIcon from "/public/icons/footer/youtube.svg";
 
-import mediumIcon from "../../public/icons/medium.png";
-import instagramIcon from "../../public/icons/instagram.png";
-import facebookIcon from "../../public/icons/facebook.png";
-import youTubeIcon from "../../public/icons/youTube.png";
+const refundPolicy = "https://vanillacoding.craft.me/gu4VcYDnv0nwsh";
+const privacyPolicy =
+  "https://vanillacoding.notion.site/7eed9ca8ca3147beae3082c2c1f15fba";
 
-const mediumUrl = "https://medium.com/vanilla-coding";
-const instagramUrl = "https://www.instagram.com/vanilla_coding";
-const facebookUrl = "https://www.facebook.com/vcoding";
-const youtubeUrl = "https://www.youtube.com/channel/UCqw3KRd7EBORZPqpxU4XLEA";
-const refundPolicy =
-  "https://www.notion.so/vanillacoding/Refund-Regulation-5fb4e6da39ae4665b5f376eb1172cf4b";
+const icons = [
+  {
+    title: "instagram",
+    link: "https://www.instagram.com/vanilla_coding",
+    component: <InstagramIcon />,
+  },
+  {
+    title: "youtube",
+    link: "https://www.youtube.com/channel/UCqw3KRd7EBORZPqpxU4XLEA",
+    component: <MediumIcon />,
+  },
+  {
+    title: "facebook",
+    link: "https://www.facebook.com/vcoding",
+    component: <FacebookIcon />,
+  },
+  {
+    title: "medium",
+    link: "https://medium.com/vanilla-coding",
+    component: <YoutubeIcon />,
+  },
+];
 
 export default function Footer() {
   return (
-    <div className="flex justify-center items-center">
-      <footer className="h-[366px] w-[1200px] border-t border-[#D9DBE0]">
-        <section className="w-full flex justify-between flex-wrap">
-          <div className="mt-[80px] ml-[130px]">
-            <strong className="font-bold text-sm">㈜크라우드에듀케이션</strong>
-            <p className="leading-[25px] mt-6 text-sm">
-              대표 허근행 | 개인정보책임자 허근행
-              <br />
-              사업자 등록번호 843-81-02398
-              <br />
-              주소 서울특별시 강남구 대치 2동 테헤란로 522, 7층
-              <br />
-              문의 info@vanillacoding.co
-            </p>
-            <div className="mt-[50px]">
+    <>
+      <footer className="flex justify-center w-full border-t border-[#D9DBE0]">
+        <section className="flex flex-col w-[1440px] justify-between flex-wrap mt-10 mr-5 mb-8 ml-5">
+          <div>
+            <LogoIcon />
+            <div className="flex mt-7 gap-6 text-[13px] font-semibold opacity-[0.61]">
               <a
-                href="/files/policy.pdf"
+                href={privacyPolicy}
                 target="_blank"
-                className="text-sm text-gray-5 font-bold block sm:inline-block"
-                title="이용약관 및 개인정보 보호정책"
+                className="block sm:inline-block"
+                title="개인정보 처리방침 및 이용약관"
               >
-                이용약관 및 개인정보 보호정책
+                개인정보 처리방침 및 이용약관
               </a>
-              <a
-                href={refundPolicy}
-                target="_blank"
-                className="text-sm text-gray-5 font-bold ml-0 sm:ml-10 block sm:inline-block"
-                title="코스 환불 규정"
-              >
-                코스 환불 규정
+              <a href={refundPolicy} target="_blank" title="코스 환불 정책">
+                코스 환불 정책
               </a>
+            </div>
+            <div className="flex flex-col mt-7 text-[#989BA2] text-[13px]">
+              <div className="hidden md:block space-y-2">
+                <div className="flex gap-2">
+                  ㈜크라우드에듀케이션
+                  <Divider />
+                  대표이사 허근행
+                  <Divider />
+                  사업자 등록번호
+                </div>
+                <div className="flex gap-2">
+                  서울특별시 강남구 테헤란로 522, 7층
+                  <Divider />
+                  연락처 02-6713-7279
+                  <Divider />
+                  문의 info@vanillacoding.co
+                </div>
+              </div>
+              <div className="block md:hidden space-y-2">
+                <div className="flex gap-2">
+                  ㈜크라우드에듀케이션
+                  <Divider />
+                  대표이사 허근행
+                </div>
+                <div className="flex gap-2">사업자 등록번호 843-81-02398</div>
+                <div className="flex gap-2">
+                  서울특별시 강남구 테헤란로 522, 7층
+                </div>
+                <div className="flex gap-2">
+                  연락처 02-6713-7279 <Divider />
+                  문의 info@vanillacoding.co
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-end mr-[130px]">
-            <a href={mediumUrl} target="_blank" title="medium">
-              <div className="flex mr-[44px]">
-                <Image
-                  src={mediumIcon}
-                  alt="medium icon"
-                  width={32}
-                  height={32}
-                />
-              </div>
-            </a>
-            <a href={instagramUrl} target="_blank" title="instagram">
-              <div className="flex mr-[44px]">
-                <Image
-                  src={instagramIcon}
-                  alt="instagram icon"
-                  width={32}
-                  height={32}
-                />
-              </div>
-            </a>
-            <a href={facebookUrl} target="_blank" title="facebook">
-              <div className="flex mr-[44px]">
-                <Image
-                  src={facebookIcon}
-                  alt="facebook icon"
-                  width={32}
-                  height={32}
-                />
-              </div>
-            </a>
-            <a href={youtubeUrl} target="_blank" title="youtube">
-              <div className="flex mr-[44px]">
-                <Image
-                  src={youTubeIcon}
-                  alt="youtube icon"
-                  width={32}
-                  height={32}
-                />
-              </div>
-            </a>
+          <div className="border-t border-gray-800 opacity-5 mt-8"></div>
+          <div className="flex justify-between items-center pt-5">
+            <p className="text-[#989BA2] text-[13px]">
+              © 2024 vanillacoding, Inc.
+            </p>
+            <div className="flex md:gap-4 gap-1">
+              {icons.map((icon) => {
+                const { title, link, component } = icon;
+
+                return (
+                  <a href={link} key={link} target="_blank" title={title}>
+                    {component}
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </section>
       </footer>
-    </div>
+    </>
   );
+}
+
+function Divider() {
+  return <div className="w-[1px] bg-[#878A9338]"></div>;
 }
